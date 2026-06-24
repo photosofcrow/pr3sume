@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNCORRECTED — Blog</title>
+<meta name="description" content="Blog de David — crónicas, reflexiones y proceso creativo sin filtros.">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Special+Elite&family=Covered+By+Your+Grace&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --papel: #EDE0C4;
+  --papel-claro: #F5EDD8;
+  --tinta: #170F05;
+  --rojo: #B8170F;
+  --rojo-hover: #8C1009;
+  --verde: #234E21;
+  --amarillo: #C8960F;
+  --gris: #5E5347;
+  --nav-h: 60px;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: 'Special Elite', serif;
+  overflow-x: hidden;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9000;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(23,15,5,0.03) 23px, rgba(23,15,5,0.03) 24px);
+  pointer-events: none;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--nav-h); z-index: 5000;
+  display: flex; justify-content: space-between; align-items: stretch;
+  background: var(--tinta); border-bottom: 3px solid var(--rojo);
+}
+.nav-logo {
+  font-family: 'Black Han Sans', sans-serif; font-size: 1.2rem;
+  color: var(--papel); text-decoration: none; letter-spacing: 4px;
+  display: flex; align-items: center; padding: 0 1.5rem;
+  border-right: 1px solid rgba(240,224,196,0.08); transition: background 0.15s;
+}
+.nav-logo:hover { background: rgba(184,23,15,0.15); }
+.nav-logo span { color: var(--rojo); margin-left: 5px; font-size: 0.65rem; vertical-align: super; }
+.nav-links { display: flex; align-items: stretch; }
+.nav-links a {
+  color: rgba(237,224,196,0.45); text-decoration: none;
+  font-family: 'Special Elite', serif; font-size: 0.72rem;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 0 1.1rem; display: flex; align-items: center;
+  border-left: 1px solid rgba(240,224,196,0.07);
+  transition: color 0.15s, background 0.15s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px; background: var(--rojo);
+  transform: scaleX(0); transition: transform 0.2s;
+}
+.nav-links a:hover { color: var(--papel-claro); background: rgba(184,23,15,0.1); }
+.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+.nav-links a.active { color: var(--papel-claro); }
+.nav-links a.nav-disco {
+  color: var(--papel); background: var(--rojo); border-color: var(--rojo);
+  font-family: 'Black Han Sans', sans-serif; letter-spacing: 3px; padding: 0 1.4rem;
+}
+.nav-links a.nav-disco:hover { background: var(--rojo-hover); }
+.nav-links a.nav-disco::after { display: none; }
+.nav-burger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; background: none; border: none; padding: 0 1.25rem; align-self: center;
+}
+.nav-burger span { display: block; width: 22px; height: 1.5px; background: var(--papel); transition: all 0.2s; }
+.nav-burger.open span:nth-child(1) { transform: rotate(45deg) translate(4px,4px); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: rotate(-45deg) translate(4px,-4px); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+
+/* ======================================================
+   VISTA: LISTA DE POSTS
+====================================================== */
+#view-list { display: block; }
+#view-article { display: none; }
+
+.page-header {
+  padding-top: calc(var(--nav-h) + 2.5rem);
+  max-width: 1100px; margin: 0 auto; padding-left: 2rem; padding-right: 2rem;
+}
+
+.masthead {
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 5px solid var(--tinta);
+  border-bottom: 1px solid rgba(23,15,5,0.25);
+  padding: 0.35rem 0;
+}
+.masthead-left { font-size: 0.58rem; color: var(--gris); letter-spacing: 2px; text-transform: uppercase; }
+.masthead-right { font-size: 0.58rem; color: var(--gris); letter-spacing: 1px; text-align: right; }
+
+.tricolor { display: flex; height: 5px; }
+.tc-1 { flex: 1; background: var(--tinta); }
+.tc-2 { width: 60px; background: var(--rojo); }
+.tc-3 { width: 30px; background: var(--amarillo); }
+.tc-4 { flex: 1; background: var(--tinta); }
+
+.page-title-row {
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding: 1.5rem 0 0; gap: 1rem;
+}
+.page-title {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 0.88; letter-spacing: -1px;
+}
+.page-title .red { color: var(--rojo); }
+.page-kicker {
+  font-size: 0.62rem; color: var(--gris); letter-spacing: 2px;
+  text-transform: uppercase; text-align: right; line-height: 2;
+}
+
+/* FILTROS */
+.filters {
+  max-width: 1100px; margin: 0 auto;
+  padding: 1.25rem 2rem;
+  display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
+  border-bottom: 1px solid rgba(23,15,5,0.1);
+}
+.filter-label { font-size: 0.58rem; color: var(--gris); letter-spacing: 2px; text-transform: uppercase; margin-right: 0.4rem; }
+.filter-btn {
+  font-family: 'Special Elite', serif; font-size: 0.68rem;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 0.22rem 0.75rem; border: 1px solid rgba(23,15,5,0.18);
+  background: transparent; color: var(--gris); cursor: pointer; transition: all 0.15s;
+}
+.filter-btn:hover { border-color: var(--tinta); color: var(--tinta); }
+.filter-btn.active { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.post-count { margin-left: auto; font-size: 0.58rem; color: var(--gris); letter-spacing: 2px; }
+
+/* GRID POSTS */
+.posts-section { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 5rem; }
+
+.posts-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 0;
+}
+
+.posts-main { padding-right: 2.5rem; border-right: 1px solid rgba(23,15,5,0.12); }
+.posts-side  { padding-left: 2rem; }
+
+/* post destacado */
+.post-featured {
+  padding-bottom: 2.5rem; margin-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(23,15,5,0.1);
+  cursor: pointer; transition: all 0.15s;
+}
+.post-featured:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+.post-cat {
+  font-size: 0.58rem; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--rojo); margin-bottom: 0.5rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.post-cat::before { content: '★'; font-size: 0.5rem; }
+
+.post-titulo {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 1.8rem; line-height: 1.05;
+  color: var(--tinta); margin-bottom: 0.65rem;
+  letter-spacing: 0.5px; transition: color 0.15s;
+}
+.post-featured:hover .post-titulo { color: var(--rojo); }
+
+.post-resumen {
+  font-size: 0.84rem; line-height: 1.8;
+  color: var(--gris); margin-bottom: 0.75rem;
+}
+
+.post-meta {
+  display: flex; gap: 1.25rem; align-items: center;
+  font-size: 0.58rem; color: rgba(94,83,71,0.55);
+  letter-spacing: 2px; text-transform: uppercase;
+}
+.post-meta-sep { color: rgba(94,83,71,0.25); }
+
+.read-more {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-family: 'Black Han Sans', sans-serif; font-size: 0.65rem;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--rojo); margin-top: 0.75rem;
+  transition: gap 0.15s;
+}
+.post-featured:hover .read-more { gap: 0.75rem; }
+
+/* posts pequeños sidebar */
+.post-small {
+  padding-bottom: 1.25rem; margin-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(23,15,5,0.08);
+  cursor: pointer; transition: all 0.15s;
+}
+.post-small:last-of-type { border-bottom: none; }
+.post-small .post-titulo { font-size: 1rem; margin-bottom: 0.3rem; }
+.post-small .post-resumen { font-size: 0.74rem; margin-bottom: 0.4rem; }
+.post-small:hover .post-titulo { color: var(--rojo); }
+
+.side-title {
+  font-size: 0.58rem; letter-spacing: 3px; color: var(--rojo);
+  text-transform: uppercase; margin-bottom: 1.25rem;
+  padding-bottom: 0.4rem; border-bottom: 2px solid var(--tinta);
+}
+
+.no-posts {
+  grid-column: 1 / -1; text-align: center; padding: 4rem 2rem;
+  border: 1px dashed rgba(23,15,5,0.15);
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 1.2rem; color: rgba(23,15,5,0.18); letter-spacing: 3px;
+}
+
+/* ======================================================
+   VISTA: ARTÍCULO COMPLETO
+====================================================== */
+#view-article {
+  padding-top: var(--nav-h);
+  min-height: 100vh;
+}
+
+.article-header {
+  max-width: 780px; margin: 0 auto;
+  padding: 3rem 2rem 0;
+}
+
+.article-back {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'Special Elite', serif; font-size: 0.68rem;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gris); cursor: pointer; margin-bottom: 2rem;
+  transition: color 0.15s;
+  background: none; border: none; padding: 0;
+}
+.article-back:hover { color: var(--rojo); }
+
+.article-masthead {
+  border-top: 5px solid var(--tinta);
+  border-bottom: 1px solid rgba(23,15,5,0.2);
+  padding: 0.35rem 0; margin-bottom: 0;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.article-masthead-left { font-size: 0.58rem; color: var(--gris); letter-spacing: 2px; text-transform: uppercase; }
+.article-masthead-right { font-size: 0.58rem; color: var(--gris); letter-spacing: 1px; }
+
+.article-tricolor { display: flex; height: 5px; margin-bottom: 2rem; }
+
+.article-cat {
+  font-size: 0.6rem; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--rojo); margin-bottom: 0.75rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.article-cat::before { content: '★'; font-size: 0.5rem; }
+
+.article-titulo {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  line-height: 0.95; letter-spacing: -0.5px;
+  color: var(--tinta); margin-bottom: 1.25rem;
+}
+
+.article-meta {
+  display: flex; gap: 1.5rem; align-items: center;
+  font-size: 0.6rem; color: rgba(94,83,71,0.55);
+  letter-spacing: 2px; text-transform: uppercase;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(23,15,5,0.1);
+  margin-bottom: 2.5rem;
+}
+
+/* cuerpo del artículo */
+.article-body {
+  max-width: 780px; margin: 0 auto;
+  padding: 0 2rem 5rem;
+}
+
+.article-body p {
+  font-size: 1rem; line-height: 1.95;
+  color: rgba(23,15,5,0.85); margin-bottom: 1.5rem;
+}
+
+/* Letra capital en el primer párrafo */
+.article-body p:first-child::first-letter {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 4.5rem; line-height: 0.75;
+  float: left; margin: 0.05rem 0.15rem 0 0;
+  color: var(--tinta);
+}
+
+/* separador entre párrafos estilo editorial */
+.article-body p + p { position: relative; }
+
+.article-pullquote {
+  margin: 2.5rem 0;
+  padding: 1.5rem 2rem;
+  border-top: 3px solid var(--rojo);
+  border-bottom: 1px solid rgba(23,15,5,0.12);
+}
+.article-pullquote p {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 1.4rem; line-height: 1.2;
+  color: var(--tinta); margin: 0 !important;
+}
+
+.article-footer {
+  max-width: 780px; margin: 0 auto;
+  padding: 0 2rem 4rem;
+  border-top: 1px solid rgba(23,15,5,0.1);
+  padding-top: 2rem;
+}
+
+.article-nav {
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.article-nav-btn {
+  font-family: 'Black Han Sans', sans-serif; font-size: 0.65rem;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--tinta); background: none; border: 2px solid var(--tinta);
+  padding: 0.55rem 1.1rem; cursor: pointer; transition: all 0.15s;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.article-nav-btn:hover { background: var(--tinta); color: var(--papel); }
+.article-nav-btn.disabled { opacity: 0.25; pointer-events: none; }
+
+.article-tags {
+  display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 1.5rem;
+}
+.article-tag {
+  font-size: 0.6rem; padding: 0.15rem 0.6rem; letter-spacing: 1px;
+  text-transform: uppercase; border: 1px solid rgba(23,15,5,0.2);
+  color: var(--gris);
+}
+
+/* FOOTER */
+footer {
+  background: var(--tinta); color: rgba(237,224,196,0.3);
+  padding: 2.5rem 2rem; border-top: 3px solid var(--rojo);
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-logo {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 1.3rem; color: var(--papel); letter-spacing: 4px;
+}
+.footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-links a {
+  color: rgba(237,224,196,0.3); text-decoration: none;
+  font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase;
+  transition: color 0.15s;
+}
+.footer-links a:hover { color: var(--rojo); }
+.footer-copy {
+  max-width: 1100px; margin: 1.5rem auto 0;
+  font-size: 0.55rem; letter-spacing: 2px; text-align: center;
+  border-top: 1px solid rgba(237,224,196,0.06); padding-top: 1.5rem;
+  color: rgba(237,224,196,0.15);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .posts-layout { grid-template-columns: 1fr; }
+  .posts-main { border-right: none; padding-right: 0; }
+  .posts-side { padding-left: 0; border-top: 1px solid rgba(23,15,5,0.1); margin-top: 2.5rem; padding-top: 2rem; }
+  .post-titulo { font-size: 1.4rem; }
+  .page-title { font-size: 2.8rem; }
+  .page-title-row { flex-direction: column; gap: 0.5rem; }
+  .article-titulo { font-size: 2rem; }
+}
+@media (max-width: 580px) {
+  .nav-links { display: none; position: absolute; top: var(--nav-h); left: 0; right: 0; flex-direction: column; background: var(--tinta); border-bottom: 2px solid var(--rojo); }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 0.85rem 1.5rem; border-left: none; border-bottom: 1px solid rgba(237,224,196,0.07); }
+  .nav-links a::after { display: none; }
+  .nav-burger { display: flex; }
+  .page-header { padding: calc(var(--nav-h) + 1.5rem) 1rem 0; }
+  .filters { padding: 1rem; }
+  .posts-section { padding: 1.5rem 1rem 4rem; }
+  .article-header { padding: 2rem 1rem 0; }
+  .article-body { padding: 0 1rem 4rem; }
+  .article-footer { padding: 0 1rem 3rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">UNCORRECTED<span>★</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="disco.html" class="nav-disco">★ Disco</a>
+    <a href="index.html#sobre-mi">Sobre mí</a>
+    <a href="videos.html">Vídeos</a>
+    <a href="blog.html" class="active">Blog</a>
+  </div>
+  <button class="nav-burger" id="burger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ======================================================
+     VISTA LISTA
+====================================================== -->
+<div id="view-list">
+  <div class="page-header">
+    <div class="masthead reveal">
+      <div class="masthead-left">La Voz Uncorrected · Blog & Prensa · David</div>
+      <div class="masthead-right">crónicas · reflexiones · proceso</div>
+    </div>
+    <div class="tricolor reveal"><div class="tc-1"></div><div class="tc-2"></div><div class="tc-3"></div><div class="tc-4"></div></div>
+    <div class="page-title-row reveal">
+      <h1 class="page-title">BLOC<br>DE <span class="red">NOTAS</span></h1>
+      <div class="page-kicker">sin filtros · sin correcciones<br>crónicas de un músico<br>desde casa</div>
+    </div>
+  </div>
+
+  <div class="filters reveal">
+    <span class="filter-label">// filtrar</span>
+    <button class="filter-btn active" onclick="filtrar('todo', this)">Todo</button>
+    <button class="filter-btn" onclick="filtrar('Producción', this)">Producción</button>
+    <button class="filter-btn" onclick="filtrar('Gear', this)">Gear</button>
+    <button class="filter-btn" onclick="filtrar('Reflexión', this)">Reflexión</button>
+    <span class="post-count" id="postCount"></span>
+  </div>
+
+  <div class="posts-section">
+    <div class="posts-layout">
+      <div class="posts-main" id="postMain"></div>
+      <div class="posts-side" id="postSide">
+        <div class="side-title">// también en el bloc</div>
+        <div id="postSideList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================
+     VISTA ARTÍCULO
+====================================================== -->
+<div id="view-article">
+  <div class="article-header">
+    <button class="article-back" id="btnBack" onclick="volverLista()">← Volver al blog</button>
+    <div class="article-masthead">
+      <div class="article-masthead-left">La Voz Uncorrected · Blog</div>
+      <div class="article-masthead-right" id="articleMeta2"></div>
+    </div>
+    <div class="article-tricolor"><div class="tc-1"></div><div class="tc-2"></div><div class="tc-3"></div><div class="tc-4"></div></div>
+    <div class="article-cat" id="articleCat"></div>
+    <h1 class="article-titulo" id="articleTitulo"></h1>
+    <div class="article-meta" id="articleMeta"></div>
+  </div>
+
+  <div class="article-body" id="articleBody"></div>
+
+  <div class="article-footer">
+    <div class="article-tags" id="articleTags"></div>
+    <div class="article-nav" style="margin-top:1.5rem;">
+      <button class="article-nav-btn" id="btnPrev" onclick="navArticle(-1)">← Anterior</button>
+      <button class="article-nav-btn" onclick="volverLista()">↑ Todos los posts</button>
+      <button class="article-nav-btn" id="btnNext" onclick="navArticle(1)">Siguiente →</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">UNCORRECTED</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="disco.html">Disco</a>
+      <a href="videos.html">Vídeos</a>
+      <a href="blog.html">Blog</a>
+      <a href="index.html#sobre-mi">Sobre mí</a>
+    </div>
+  </div>
+  <div class="footer-copy">© 2025 UNCORRECTED · david · sin reglas · sin filtros · sin correcciones</div>
+</footer>
+
+<script>
+var posts = [];
+var filtroActual = 'todo';
+var articuloActual = null;
+
+/* ---- Carga el JSON ---- */
+fetch('data/blog.json')
+  .then(function(r) {
+    if (!r.ok) throw new Error('No se pudo cargar data/blog.json');
+    return r.json();
+  })
+  .then(function(data) {
+    posts = data;
+    // Ver si hay un hash en la URL
+    var hash = window.location.hash.replace('#', '');
+    if (hash) {
+      var post = posts.find(function(p) { return p.id === hash; });
+      if (post) { abrirArticulo(post); return; }
+    }
+    renderLista('todo');
+  })
+  .catch(function(err) {
+    document.getElementById('postMain').innerHTML =
+      '<div class="no-posts">ERROR AL CARGAR POSTS<br><small style="font-size:0.6rem;letter-spacing:1px;">' + err.message + '</small></div>';
+    document.getElementById('postCount').textContent = '// 0 posts';
+  });
+
+/* ---- Render lista ---- */
+function renderLista(filtro) {
+  filtroActual = filtro;
+  var filtrados = filtro === 'todo' ? posts : posts.filter(function(p) { return p.categoria === filtro; });
+  document.getElementById('postCount').textContent = '// ' + filtrados.length + ' post' + (filtrados.length !== 1 ? 's' : '');
+
+  var main = document.getElementById('postMain');
+  var sideList = document.getElementById('postSideList');
+  main.innerHTML = '';
+  sideList.innerHTML = '';
+
+  if (!filtrados.length) {
+    main.innerHTML = '<div class="no-posts">SIN POSTS EN ESTA CATEGORÍA</div>';
+    return;
+  }
+
+  // El primero o el destacado va en main grande, el resto en side
+  var destacado = filtrados.find(function(p) { return p.destacado; }) || filtrados[0];
+  var resto = filtrados.filter(function(p) { return p !== destacado; });
+
+  // Post destacado
+  var d = document.createElement('article');
+  d.className = 'post-featured reveal';
+  d.innerHTML =
+    '<div class="post-cat">' + destacado.categoria + '</div>' +
+    '<h2 class="post-titulo">' + destacado.titulo + '</h2>' +
+    '<p class="post-resumen">' + destacado.resumen + '</p>' +
+    '<div class="post-meta">' +
+      '<span>' + destacado.fecha + '</span>' +
+      '<span class="post-meta-sep">·</span>' +
+      '<span>' + destacado.lectura + ' lectura</span>' +
+    '</div>' +
+    '<div class="read-more">Leer artículo →</div>';
+  d.onclick = function() { abrirArticulo(destacado); };
+  main.appendChild(d);
+
+  // Resto en main también (si hay más de uno en el filtro)
+  if (filtro !== 'todo') {
+    resto.forEach(function(p) {
+      var art = document.createElement('article');
+      art.className = 'post-featured reveal';
+      art.innerHTML =
+        '<div class="post-cat">' + p.categoria + '</div>' +
+        '<h2 class="post-titulo">' + p.titulo + '</h2>' +
+        '<p class="post-resumen">' + p.resumen + '</p>' +
+        '<div class="post-meta"><span>' + p.fecha + '</span><span class="post-meta-sep">·</span><span>' + p.lectura + ' lectura</span></div>' +
+        '<div class="read-more">Leer artículo →</div>';
+      art.onclick = function() { abrirArticulo(p); };
+      main.appendChild(art);
+    });
+  } else {
+    // En vista "todo" el resto va al sidebar
+    resto.forEach(function(p) {
+      var sm = document.createElement('article');
+      sm.className = 'post-small reveal';
+      sm.innerHTML =
+        '<div class="post-cat">' + p.categoria + '</div>' +
+        '<h3 class="post-titulo">' + p.titulo + '</h3>' +
+        '<p class="post-resumen">' + p.resumen + '</p>' +
+        '<div class="post-meta"><span>' + p.fecha + '</span><span class="post-meta-sep">·</span><span>' + p.lectura + '</span></div>';
+      sm.onclick = function() { abrirArticulo(p); };
+      sideList.appendChild(sm);
+    });
+  }
+
+  // Animaciones
+  setTimeout(function() {
+    document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('visible'); });
+  }, 50);
+}
+
+/* ---- Filtrar ---- */
+function filtrar(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderLista(cat);
+}
+
+/* ---- Abrir artículo ---- */
+function abrirArticulo(post) {
+  articuloActual = post;
+  window.location.hash = post.id;
+  window.scrollTo(0, 0);
+
+  document.getElementById('view-list').style.display = 'none';
+  document.getElementById('view-article').style.display = 'block';
+
+  document.getElementById('articleCat').innerHTML = post.categoria;
+  document.getElementById('articleTitulo').textContent = post.titulo;
+  document.getElementById('articleMeta').innerHTML =
+    '<span>' + post.fecha + '</span>' +
+    '<span style="opacity:0.3">·</span>' +
+    '<span>' + post.lectura + ' lectura</span>' +
+    '<span style="opacity:0.3">·</span>' +
+    '<span>' + post.categoria + '</span>';
+  document.getElementById('articleMeta2').textContent = post.fecha + ' · ' + post.lectura;
+
+  // Cuerpo — párrafos del array
+  var body = document.getElementById('articleBody');
+  body.innerHTML = '';
+  post.cuerpo.forEach(function(parrafo, i) {
+    // Insertar pullquote visual después del 2º párrafo si hay suficientes
+    if (i === 2 && post.cuerpo.length > 3) {
+      var pq = document.createElement('div');
+      pq.className = 'article-pullquote';
+      // Coge una frase del párrafo como pullquote
+      var frase = parrafo.split('.')[0] + '.';
+      if (frase.length > 120) frase = frase.substring(0, 120) + '…';
+      pq.innerHTML = '<p>' + frase + '</p>';
+      body.appendChild(pq);
+    }
+    var p = document.createElement('p');
+    p.textContent = parrafo;
+    body.appendChild(p);
+  });
+
+  // Tags
+  document.getElementById('articleTags').innerHTML =
+    ['David', post.categoria, 'UNCORRECTED', '2025'].map(function(t) {
+      return '<span class="article-tag">' + t + '</span>';
+    }).join('');
+
+  // Nav anterior/siguiente
+  var idx = posts.indexOf(post);
+  document.getElementById('btnPrev').classList.toggle('disabled', idx === 0);
+  document.getElementById('btnNext').classList.toggle('disabled', idx === posts.length - 1);
+}
+
+/* ---- Navegar entre artículos ---- */
+function navArticle(dir) {
+  var idx = posts.indexOf(articuloActual);
+  var next = posts[idx + dir];
+  if (next) abrirArticulo(next);
+}
+
+/* ---- Volver a la lista ---- */
+function volverLista() {
+  window.location.hash = '';
+  document.getElementById('view-list').style.display = 'block';
+  document.getElementById('view-article').style.display = 'none';
+  window.scrollTo(0, 0);
+  articuloActual = null;
+}
+
+/* ---- Burger ---- */
+document.getElementById('burger').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+  document.getElementById('burger').classList.toggle('open');
+});
+
+/* ---- Botón atrás del navegador ---- */
+window.addEventListener('hashchange', function() {
+  var hash = window.location.hash.replace('#', '');
+  if (!hash) {
+    volverLista();
+  } else {
+    var post = posts.find(function(p) { return p.id === hash; });
+    if (post) abrirArticulo(post);
+  }
+});
+</script>
+</body>
+</html>
