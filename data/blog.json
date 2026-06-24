@@ -1,0 +1,69 @@
+
+[
+  {
+    "id": "como-grabe-el-album",
+    "titulo": "Cómo grabé un álbum entero sin salir de casa",
+    "categoria": "Producción",
+    "fecha": "Junio 2025",
+    "lectura": "5 min",
+    "destacado": true,
+    "resumen": "Un cuaderno, un teclado viejo y demasiado café. Así nació UNCORRECTED. Sin estudio, sin ingeniero de sonido, sin plan.",
+    "cuerpo": [
+      "Todo empezó una tarde de lluvia con un cuaderno de pentagramas en blanco y un sintetizador que llevaba tres años cogiendo polvo en el armario. No había plan. No había presupuesto. Solo la sensación de que si no lo hacía ese día, no lo haría nunca.",
+      "El proceso fue caótico por necesidad y honesto por accidente. Grabé las voces en el baño porque tiene mejor acústica que el salón. Usé una manta para cubrir el armario y convertirlo en cabina. El micrófono costó 40 euros en una tienda de segunda mano.",
+      "Lo que aprendí es que las limitaciones son una forma de creatividad disfrazada. Cuando no tienes 64 pistas disponibles, aprendes a elegir. Cuando no tienes un productor detrás diciéndote qué hacer, aprendes a confiar en tu oído.",
+      "Cada canción del álbum tiene algún defecto que decidí no corregir. Una respiración antes de entrar en el estribillo. Una nota ligeramente desafinada que le da carácter a la melodía. El sonido de una silla moviéndose en el fondo de una pista.",
+      "UNCORRECTED no se llama así por casualidad. Se llama así porque lo que escuchas es exactamente lo que pasó en esa habitación, esa tarde, con esa taza de café fría al lado. Sin correcciones. Sin filtros. Sin reglas.",
+      "Si estás pensando en grabar tu propio disco y crees que necesitas más de lo que tienes — probablemente no lo necesitas. Necesitas empezar."
+    ]
+  },
+  {
+    "id": "el-synth-que-cambio-todo",
+    "titulo": "El synth que cambió cómo entiendo la música",
+    "categoria": "Gear",
+    "fecha": "Mayo 2025",
+    "lectura": "4 min",
+    "destacado": false,
+    "resumen": "No es el más caro ni el más moderno. Pero tiene algo que los plug-ins digitales no pueden copiar: carácter propio.",
+    "cuerpo": [
+      "Hay instrumentos que te enseñan a tocar y hay instrumentos que te enseñan a escuchar. El Juno-106 que encontré en un mercadillo de Malasaña por 200 euros fue de los segundos.",
+      "Cuando lo enchufé por primera vez y escuché ese pad característico — ese colchón analógico que parece que respira — entendí por qué la gente lleva cuarenta años hablando de él. No es perfecto. Desafina ligeramente cuando lleva mucho tiempo encendido. Algunos de los sliders están un poco flojos. Y justamente por eso suena como suena.",
+      "Los plug-ins modernos pueden emularlo con una precisión asombrosa. Pero no pueden copiar la sensación de mover un slider físico y sentir cómo el sonido cambia bajo tus dedos en tiempo real, sin latencia, sin pantallas de por medio.",
+      "Cuatro de las siete canciones de UNCORRECTED tienen el Juno en alguna capa. A veces lo escuchas claramente, a veces es solo un brillo que no sabrías identificar si no lo supieras. Pero está ahí, dándole al disco esa temperatura que no supe poner en palabras hasta que alguien me dijo: 'suena a algo que pasó de verdad'.",
+      "Si buscas gear, busca cosas que te den ganas de quedarte despierto hasta las tres de la mañana sin darte cuenta. El resto es secundario."
+    ]
+  },
+  {
+    "id": "por-que-no-uso-autotune",
+    "titulo": "Por qué no uso autotune",
+    "categoria": "Reflexión",
+    "fecha": "Abril 2025",
+    "lectura": "3 min",
+    "destacado": false,
+    "resumen": "Una razón simple: no me interesa sonar perfecto. Me interesa sonar como yo.",
+    "cuerpo": [
+      "No tengo nada contra el autotune. Es una herramienta como cualquier otra y en manos de alguien que sabe usarla puede ser extraordinaria. Pero en mi caso, usarlo sería como firmar un cuadro que no he pintado.",
+      "Mi voz tiene una calidad que técnicamente se podría llamar imperfecta. Hay notas que no llego limpio, hay vibrato irregular, hay momentos en los que la emoción me hace perder el control del sonido. Todo eso, para mí, es información. Es lo que hace que una voz cuente algo en lugar de simplemente sonar.",
+      "Cuando escuchas a alguien cantar con el alma — realmente con el alma — escuchas el esfuerzo. Escuchas el riesgo. Escuchas a alguien que podría fallar y lo hace de todos modos. Eso es lo que me mueve de la música.",
+      "UNCORRECTED tiene esa filosofía en cada decisión: si algo suena un poco raro pero es honesto, se queda. Si algo suena perfecto pero vacío, se va.",
+      "Pero limpio no es lo mismo que verdadero. Y verdadero es lo único que me importa."
+    ]
+  },
+  {
+    "id": "setup-200-euros",
+    "titulo": "Mi setup de 200€ para grabar en casa",
+    "categoria": "Gear",
+    "fecha": "Marzo 2025",
+    "lectura": "4 min",
+    "destacado": false,
+    "resumen": "No necesitas un estudio de miles. Solo saber dónde mirar y qué es realmente imprescindible.",
+    "cuerpo": [
+      "Cuando la gente me pregunta con qué grabé UNCORRECTED esperan una lista larga de equipo caro. La realidad es que todo el setup suma menos de 200 euros si sabes dónde comprar.",
+      "El micrófono es un condensador de membrana grande que encontré de segunda mano por 35 euros. No es un Neumann. Pero captura el aire de la habitación de una manera que a mí me gusta y que defiendo.",
+      "La interfaz de audio es una Focusrite Scarlett Solo de primera generación, también de segunda mano, por unos 50 euros. Hace exactamente lo que necesito: convierte la señal analógica en digital sin añadir ruido apreciable.",
+      "El resto es software gratuito o de bajo coste. Reaper como DAW. Plugins gratuitos de Airwindows para colorear. El oído como filtro principal.",
+      "Lo que no tiene precio: el tiempo. Llevar años escuchando música con atención, entendiendo cómo suenan las cosas, desarrollando criterio. Eso no se compra.",
+      "Empieza con lo que tienes. Mejora cuando sepas exactamente qué límite estás intentando superar."
+    ]
+  }
+]
