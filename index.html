@@ -3,20 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UNCORRECTED — Home</title>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Special+Elite&family=Covered+By+Your+Grace&family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<title>UNCORRECTED — David</title>
+<meta name="description" content="David — músico y productor. Álbum UNCORRECTED, 7 canciones sin filtros, sin reglas, sin correcciones.">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Special+Elite&family=Covered+By+Your+Grace&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --papel: #F0E6CC;
-  --papel-oscuro: #D9C9A3;
-  --tinta: #1A1209;
-  --rojo: #C41A15;
-  --verde: #2A5A28;
-  --amarillo: #D4A017;
-  --gris: #6B6055;
-  --nav-h: 58px;
+  --papel: #EDE0C4;
+  --papel-claro: #F5EDD8;
+  --papel-oscuro: #C9B98A;
+  --tinta: #170F05;
+  --rojo: #B8170F;
+  --rojo-hover: #8C1009;
+  --verde: #234E21;
+  --amarillo: #C8960F;
+  --gris: #5E5347;
+  --nav-h: 60px;
 }
 
 html { scroll-behavior: smooth; }
@@ -28,86 +31,126 @@ body {
   overflow-x: hidden;
 }
 
-/* GRAIN texture overlay */
+/* grain */
 body::after {
   content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9000;
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9000;
 }
 
-/* ====== NAV ====== */
+/* líneas de pentagrama */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg, transparent, transparent 23px,
+    rgba(23,15,5,0.032) 23px, rgba(23,15,5,0.032) 24px
+  );
+  pointer-events: none;
+}
+
+/* ======================================================
+   NAV
+====================================================== */
 nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
+  position: fixed; top: 0; left: 0; right: 0;
   height: var(--nav-h);
   z-index: 5000;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 0 2rem;
+  align-items: stretch;
   background: var(--tinta);
   border-bottom: 3px solid var(--rojo);
 }
 
 .nav-logo {
   font-family: 'Black Han Sans', sans-serif;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: var(--papel);
   text-decoration: none;
-  letter-spacing: 3px;
-  position: relative;
+  letter-spacing: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  border-right: 1px solid rgba(240,224,196,0.08);
+  transition: background 0.15s;
 }
-.nav-logo::after {
-  content: '★';
-  color: var(--rojo);
-  font-size: 0.7rem;
-  margin-left: 6px;
-  vertical-align: super;
-}
+.nav-logo:hover { background: rgba(184,23,15,0.15); }
+.nav-logo span { color: var(--rojo); margin-left: 5px; font-size: 0.65rem; vertical-align: super; }
 
 .nav-links {
   display: flex;
-  align-items: center;
-  gap: 0;
+  align-items: stretch;
 }
 .nav-links a {
-  color: rgba(240,230,204,0.55);
+  color: rgba(237,224,196,0.45);
   text-decoration: none;
   font-family: 'Special Elite', serif;
-  font-size: 0.78rem;
-  letter-spacing: 1px;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  padding: 0.4rem 1rem;
-  border-left: 1px solid rgba(240,230,204,0.1);
+  padding: 0 1.1rem;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid rgba(240,224,196,0.07);
   transition: color 0.15s, background 0.15s;
+  position: relative;
 }
-.nav-links a:last-child { border-right: 1px solid rgba(240,230,204,0.1); }
-.nav-links a:hover { color: var(--papel); background: rgba(196,26,21,0.2); }
-.nav-links a.active { color: var(--rojo); }
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--rojo);
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+.nav-links a:hover { color: var(--papel-claro); background: rgba(184,23,15,0.1); }
+.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+.nav-links a.active { color: var(--papel-claro); }
+
 .nav-links a.nav-disco {
   color: var(--papel);
   background: var(--rojo);
   border-color: var(--rojo);
   font-family: 'Black Han Sans', sans-serif;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+  padding: 0 1.4rem;
 }
-.nav-links a.nav-disco:hover { background: #9e1410; }
+.nav-links a.nav-disco:hover { background: var(--rojo-hover); }
+.nav-links a.nav-disco::after { display: none; }
 
 .nav-burger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 4px;
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; background: none; border: none;
+  padding: 0 1.25rem; align-self: center;
 }
-.nav-burger span { display: block; width: 22px; height: 2px; background: var(--papel); }
+.nav-burger span { display: block; width: 22px; height: 1.5px; background: var(--papel); transition: all 0.2s; }
+.nav-burger.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
 
-/* ====== HERO — PERIÓDICO UNDERGROUND ====== */
+/* ======================================================
+   ANIMACIONES DE ENTRADA
+====================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ======================================================
+   HERO
+====================================================== */
 .hero {
   min-height: 100vh;
   padding-top: var(--nav-h);
@@ -116,13 +159,11 @@ nav {
   background: var(--papel);
 }
 
-/* Fondo de texto periódico fantasma */
 .hero-newsprint {
-  position: absolute;
-  inset: 0;
+  position: absolute; inset: 0;
   font-family: 'Special Elite', serif;
-  font-size: 0.65rem;
-  color: rgba(26,18,9,0.06);
+  font-size: 0.62rem;
+  color: rgba(23,15,5,0.05);
   line-height: 1.55;
   padding: 2rem;
   word-break: break-all;
@@ -131,705 +172,828 @@ nav {
   user-select: none;
 }
 
-/* Líneas horizontales de periódico */
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 22px,
-    rgba(26,18,9,0.04) 22px,
-    rgba(26,18,9,0.04) 23px
-  );
-  pointer-events: none;
-}
-
 .hero-inner {
-  position: relative;
-  z-index: 2;
+  position: relative; z-index: 2;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 2rem 2rem;
+  padding: 2.5rem 2rem 3rem;
   display: grid;
-  grid-template-columns: 1fr 380px;
-  grid-template-rows: auto auto;
+  grid-template-columns: 1fr 360px;
   gap: 0;
   min-height: calc(100vh - var(--nav-h));
   align-items: start;
 }
 
-/* CABECERA DEL PERIÓDICO */
-.paper-header {
+/* masthead */
+.masthead {
   grid-column: 1 / -1;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 4px solid var(--tinta);
-  border-bottom: 1px solid var(--tinta);
-  padding: 0.4rem 0;
-  margin-bottom: 0;
+  border-top: 5px solid var(--tinta);
+  border-bottom: 1px solid rgba(23,15,5,0.3);
+  padding: 0.35rem 0;
 }
-
-.paper-title-row {
-  font-family: 'Special Elite', serif;
-  font-size: 0.62rem;
+.masthead-left {
+  font-size: 0.58rem;
   color: var(--gris);
   letter-spacing: 2px;
   text-transform: uppercase;
 }
-
-.paper-edition {
-  font-family: 'Special Elite', serif;
-  font-size: 0.6rem;
+.masthead-date {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 0.58rem;
+  color: var(--rojo);
+  letter-spacing: 3px;
+}
+.masthead-right {
+  font-size: 0.58rem;
   color: var(--gris);
-  text-align: right;
   letter-spacing: 1px;
+  text-align: right;
 }
 
-.paper-divider-row {
+/* divisor tricolor */
+.tricolor {
   grid-column: 1 / -1;
   display: flex;
-  align-items: center;
-  gap: 0;
-  margin: 0;
+  height: 5px;
+  margin-bottom: 0;
 }
-.pd-thick { flex: 1; height: 4px; background: var(--tinta); }
-.pd-red { width: 80px; height: 4px; background: var(--rojo); }
-.pd-thin { flex: 1; height: 1px; background: var(--tinta); margin-top: 3px; }
+.tc-1 { flex: 1; background: var(--tinta); }
+.tc-2 { width: 60px; background: var(--rojo); }
+.tc-3 { width: 30px; background: var(--amarillo); }
+.tc-4 { flex: 1; background: var(--tinta); }
 
-/* COLUMNA PRINCIPAL — titular */
+/* columna principal */
 .hero-main {
-  padding: 1.5rem 2rem 1.5rem 0;
-  border-right: 1px solid var(--tinta);
-  position: relative;
+  padding: 1.75rem 2.5rem 2rem 0;
+  border-right: 1px solid rgba(23,15,5,0.2);
 }
 
-.hero-kicker {
-  font-family: 'Special Elite', serif;
-  font-size: 0.65rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
+.kicker {
+  font-size: 0.62rem;
+  letter-spacing: 4px;
   color: var(--rojo);
-  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
-.hero-kicker::before {
+.kicker::before {
   content: '';
-  display: inline-block;
-  width: 20px;
-  height: 2px;
+  display: block;
+  width: 24px; height: 2px;
   background: var(--rojo);
 }
 
-.hero-headline {
+.headline {
   font-family: 'Black Han Sans', sans-serif;
-  font-size: clamp(3.5rem, 8vw, 6.5rem);
-  line-height: 0.9;
+  font-size: clamp(3.8rem, 9vw, 7rem);
+  line-height: 0.88;
   color: var(--tinta);
-  letter-spacing: -1px;
-  margin-bottom: 1rem;
-  position: relative;
+  letter-spacing: -2px;
+  margin-bottom: 1.25rem;
 }
-
-.hero-headline .word-red { color: var(--rojo); }
-.hero-headline .word-stamp {
+.headline .stamp {
   display: inline-block;
   background: var(--rojo);
   color: var(--papel);
-  padding: 0 8px;
-  transform: rotate(-1.5deg);
-  font-size: 0.85em;
+  padding: 2px 10px;
+  transform: rotate(-2deg);
+  font-size: 0.82em;
+  letter-spacing: 0;
 }
+.headline .dash { color: var(--rojo); }
 
-/* texto en varios idiomas */
-.hero-multilang {
+.multilang {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
+  gap: 0.4rem 1.2rem;
   margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(23,15,5,0.12);
 }
-.lang-item {
-  font-family: 'Special Elite', serif;
-  font-size: 0.72rem;
+.lang-pill {
+  font-size: 0.68rem;
   color: var(--gris);
   letter-spacing: 1px;
 }
-.lang-item strong {
-  color: var(--tinta);
+.lang-pill strong {
   font-family: 'Black Han Sans', sans-serif;
-  font-size: 0.85rem;
+  color: var(--tinta);
   letter-spacing: 2px;
+  font-size: 0.8rem;
 }
 
-/* Texto cuerpo estilo artículo */
-.hero-body-text {
+.body-cols {
   column-count: 2;
   column-gap: 1.5rem;
-  column-rule: 1px solid rgba(26,18,9,0.15);
-  font-size: 0.82rem;
-  line-height: 1.75;
-  color: var(--tinta);
-  margin-bottom: 1.5rem;
+  column-rule: 1px solid rgba(23,15,5,0.12);
+  font-size: 0.83rem;
+  line-height: 1.8;
+  color: rgba(23,15,5,0.85);
+  margin-bottom: 1.75rem;
 }
-
-.hero-body-text p { margin-bottom: 0.75rem; break-inside: avoid; }
-
-.hero-body-text .dropcap::first-letter {
+.body-cols p { margin-bottom: 0.6rem; break-inside: avoid; }
+.body-cols .dropcap::first-letter {
   font-family: 'Black Han Sans', sans-serif;
-  font-size: 3.5rem;
-  line-height: 0.8;
+  font-size: 3.8rem;
+  line-height: 0.75;
   float: left;
-  margin: 0.1rem 0.15rem 0 0;
+  margin: 0.05rem 0.12rem 0 0;
   color: var(--tinta);
 }
 
-/* CTA botones estilo sello */
-.hero-ctas {
+.ctas {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
-  align-items: center;
-  margin-top: 1.5rem;
 }
 
-.btn-stamp {
+.btn {
   font-family: 'Black Han Sans', sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   letter-spacing: 3px;
   text-transform: uppercase;
   text-decoration: none;
-  padding: 0.6rem 1.4rem;
-  display: inline-block;
+  padding: 0.65rem 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 2px solid;
   transition: all 0.15s;
-  position: relative;
+  cursor: pointer;
 }
-.btn-stamp-rojo {
-  background: var(--rojo);
-  color: var(--papel);
-  border: 2px solid var(--rojo);
-}
-.btn-stamp-rojo:hover {
-  background: transparent;
-  color: var(--rojo);
-}
-.btn-stamp-outline {
-  background: transparent;
-  color: var(--tinta);
-  border: 2px solid var(--tinta);
-}
-.btn-stamp-outline:hover {
-  background: var(--tinta);
-  color: var(--papel);
-}
+.btn-rojo { background: var(--rojo); color: var(--papel); border-color: var(--rojo); }
+.btn-rojo:hover { background: transparent; color: var(--rojo); }
+.btn-outline { background: transparent; color: var(--tinta); border-color: var(--tinta); }
+.btn-outline:hover { background: var(--tinta); color: var(--papel); }
+.btn-verde { background: var(--verde); color: var(--papel); border-color: var(--verde); }
+.btn-verde:hover { background: transparent; color: var(--verde); }
 
-/* COLUMNA LATERAL — carátula + datos */
+/* columna lateral */
 .hero-side {
-  padding: 1.5rem 0 1.5rem 1.5rem;
-  position: relative;
+  padding: 1.75rem 0 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
-/* PORTADA simulada */
+/* carátula */
+.cover-wrap {
+  position: relative;
+}
 .cover-card {
   background: var(--tinta);
-  padding: 1.2rem;
+  padding: 1.1rem;
+  transform: rotate(0.7deg);
+  box-shadow: 5px 5px 0 rgba(23,15,5,0.2);
   position: relative;
-  margin-bottom: 1.25rem;
-  transform: rotate(0.8deg);
-  box-shadow: 4px 4px 0 rgba(26,18,9,0.25);
 }
-
-.cover-card-inner {
-  border: 1px solid rgba(240,230,204,0.2);
+.cover-inner {
+  border: 1px solid rgba(237,224,196,0.18);
   padding: 1rem;
-  min-height: 160px;
+  min-height: 150px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
   overflow: hidden;
 }
-
-.cover-grid-bg {
-  position: absolute;
-  inset: 0;
+.cover-grid {
+  position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(0,229,255,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,229,255,0.06) 1px, transparent 1px);
-  background-size: 18px 18px;
+    linear-gradient(rgba(0,229,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.05) 1px, transparent 1px);
+  background-size: 16px 16px;
 }
-
-.cover-album-name {
+.cover-title {
   font-family: 'Black Han Sans', sans-serif;
-  font-size: 1.8rem;
+  font-size: 1.9rem;
   color: var(--papel);
-  text-shadow: 2px 2px 0 var(--rojo), -1px -1px 0 #00E5FF;
+  text-shadow: 2px 2px 0 var(--rojo), -1px -1px 0 #00D4FF;
   letter-spacing: 2px;
-  position: relative;
-  z-index: 1;
   line-height: 1;
+  position: relative; z-index: 1;
 }
-
-.cover-bottom {
-  position: relative;
-  z-index: 1;
+.cover-foot {
+  position: relative; z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
 }
 .cover-artist {
-  font-family: 'Special Elite', serif;
-  font-size: 0.55rem;
-  color: rgba(240,230,204,0.4);
+  font-size: 0.5rem;
+  color: rgba(237,224,196,0.35);
   letter-spacing: 2px;
   text-transform: uppercase;
+  line-height: 1.6;
 }
-.cover-pistas {
+.cover-num {
   font-family: 'Black Han Sans', sans-serif;
-  font-size: 1.4rem;
-  color: rgba(0,229,255,0.4);
+  font-size: 1.6rem;
+  color: rgba(0,212,255,0.35);
 }
 
-/* STICKER decorativo */
 .sticker {
   position: absolute;
-  font-family: 'Black Han Sans', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  top: -18px; right: -12px;
+  width: 64px; height: 64px;
+  background: var(--rojo);
+  color: var(--papel);
+  border: 2px solid var(--papel-claro);
   border-radius: 50%;
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 0.48rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  line-height: 1.2;
-}
-
-.sticker-1 {
-  width: 68px; height: 68px;
-  background: var(--rojo);
-  color: var(--papel);
-  font-size: 0.52rem;
-  top: -20px; right: -14px;
-  transform: rotate(12deg);
+  line-height: 1.3;
+  transform: rotate(14deg);
   z-index: 5;
-  border: 2px solid var(--papel);
 }
 
-/* Track list lateral compacto */
-.side-tracklist {
-  list-style: none;
-}
+/* tracklist */
+.side-tracklist { list-style: none; }
 .side-tracklist li {
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
-  padding: 0.35rem 0;
-  border-bottom: 1px solid rgba(26,18,9,0.1);
-  font-size: 0.75rem;
+  gap: 0.4rem;
+  padding: 0.32rem 0;
+  border-bottom: 1px solid rgba(23,15,5,0.09);
+  font-size: 0.74rem;
   color: var(--tinta);
+  cursor: pointer;
+  transition: color 0.12s;
 }
 .side-tracklist li:last-child { border-bottom: none; }
-.side-tracklist li .sn { color: var(--gris); font-size: 0.62rem; flex-shrink: 0; }
-.side-tracklist li .strack { font-family: 'Special Elite', serif; flex: 1; }
-.side-tracklist li .sdur { color: var(--gris); font-size: 0.6rem; flex-shrink: 0; }
+.side-tracklist li:hover { color: var(--rojo); }
+.side-tracklist .sn { color: var(--gris); font-size: 0.6rem; flex-shrink: 0; width: 1.2rem; }
+.side-tracklist .st { flex: 1; }
+.side-tracklist .sd { color: var(--gris); font-size: 0.58rem; flex-shrink: 0; }
 
-/* ESCUCHAR link */
-.listen-link {
+.listen-btn {
   display: block;
-  margin-top: 1rem;
   text-align: center;
   font-family: 'Black Han Sans', sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--papel);
   background: var(--tinta);
-  padding: 0.6rem;
+  padding: 0.65rem;
   text-decoration: none;
   border: 2px solid var(--tinta);
   transition: all 0.15s;
 }
-.listen-link:hover { background: var(--rojo); border-color: var(--rojo); }
+.listen-btn:hover { background: var(--rojo); border-color: var(--rojo); }
 
-/* ====== SOBRE MÍ ====== */
-.sobre-section {
-  position: relative;
+/* scroll indicator */
+.scroll-ind {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(23,15,5,0.25);
+  font-size: 0.55rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  z-index: 2;
+  animation: scrollBounce 2.5s ease-in-out infinite;
+}
+.scroll-ind::after {
+  content: '';
+  display: block;
+  width: 1px; height: 36px;
+  background: linear-gradient(to bottom, rgba(23,15,5,0.3), transparent);
+}
+@keyframes scrollBounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(5px); }
+}
+
+/* ======================================================
+   STRIP — álbum destacado
+====================================================== */
+.album-strip {
+  background: var(--tinta);
+  color: var(--papel);
+  border-top: 3px solid var(--rojo);
+  border-bottom: 3px solid var(--rojo);
+}
+.strip-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.strip-label {
+  font-size: 0.58rem;
+  color: var(--rojo);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+.strip-title {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+.strip-meta {
+  font-size: 0.62rem;
+  color: rgba(237,224,196,0.35);
+  letter-spacing: 2px;
+}
+.strip-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+.strip-pill {
+  font-size: 0.6rem;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid rgba(237,224,196,0.15);
+  color: rgba(237,224,196,0.4);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+/* ======================================================
+   SOBRE MÍ
+====================================================== */
+.sobre {
   background: var(--tinta);
   color: var(--papel);
   padding: 5rem 2rem;
+  position: relative;
   overflow: hidden;
 }
-
-.sobre-section::before {
-  content: 'RAUL RAUL RAUL RAUL RAUL RAUL RAUL RAUL RAUL RAUL RAUL RAUL RAUL RAUL RAUL RAUL RAUL RAUL RAUL RAUL';
+.sobre::before {
+  content: 'DAVID';
   position: absolute;
   font-family: 'Black Han Sans', sans-serif;
-  font-size: 5rem;
-  color: rgba(240,230,204,0.025);
+  font-size: 18vw;
+  color: rgba(237,224,196,0.018);
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
   white-space: nowrap;
-  top: 50%;
-  left: -5%;
-  transform: rotate(-6deg) translateY(-50%);
   pointer-events: none;
-  letter-spacing: 20px;
+  letter-spacing: 10px;
 }
-
 .sobre-inner {
   max-width: 1100px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 220px 1fr;
   gap: 4rem;
   align-items: start;
 }
 
-.sobre-tag {
-  font-family: 'Special Elite', serif;
-  font-size: 0.6rem;
+.sobre-label {
+  font-size: 0.58rem;
   letter-spacing: 4px;
   color: var(--rojo);
   text-transform: uppercase;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
 }
-
-.sobre-title {
+.sobre-h2 {
   font-family: 'Black Han Sans', sans-serif;
-  font-size: 3.5rem;
-  line-height: 0.9;
+  font-size: clamp(3rem,6vw,4.5rem);
+  line-height: 0.88;
   color: var(--papel);
   margin-bottom: 2rem;
-  position: relative;
 }
+.sobre-h2 .accent { color: var(--rojo); }
 
-.sobre-left {
-  position: relative;
-}
-
-/* Foto placeholder */
-.foto-box {
+/* foto */
+.foto-col { position: relative; }
+.foto-frame {
   width: 100%;
   aspect-ratio: 3/4;
-  background: rgba(240,230,204,0.06);
-  border: 1px solid rgba(240,230,204,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: rgba(237,224,196,0.05);
+  border: 1px solid rgba(237,224,196,0.12);
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: flex-end;
 }
-.foto-box::after {
-  content: 'foto\Apronto';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
+.foto-inner {
+  /* cuando tengas foto: background: url('tu-foto.jpg') center/cover; */
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(237,224,196,0.02) 0px,
+    rgba(237,224,196,0.02) 1px,
+    transparent 1px,
+    transparent 8px
+  );
+}
+.foto-caption {
+  position: relative; z-index: 1;
+  width: 100%;
   background: var(--rojo);
   color: var(--papel);
   font-family: 'Black Han Sans', sans-serif;
-  font-size: 0.6rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  text-align: center;
-  padding: 0.3rem;
-  white-space: pre;
-}
-
-.foto-caption {
-  font-family: 'Special Elite', serif;
-  font-size: 0.62rem;
-  color: rgba(240,230,204,0.35);
-  margin-top: 0.5rem;
-  text-align: center;
-  letter-spacing: 1px;
-  font-style: italic;
-}
-
-/* etiqueta rotada */
-.rotated-label {
-  position: absolute;
-  left: -30px;
-  top: 40%;
-  transform: rotate(-90deg) translateX(-50%);
-  transform-origin: center;
-  font-family: 'Special Elite', serif;
   font-size: 0.55rem;
   letter-spacing: 3px;
-  color: rgba(240,230,204,0.2);
+  text-transform: uppercase;
+  padding: 0.35rem 0.6rem;
+}
+.foto-side-label {
+  position: absolute;
+  left: -28px; top: 50%;
+  transform: rotate(-90deg) translateX(-50%);
+  transform-origin: center;
+  font-size: 0.5rem;
+  letter-spacing: 3px;
+  color: rgba(237,224,196,0.15);
   text-transform: uppercase;
   white-space: nowrap;
 }
 
-.sobre-right {}
-
-.sobre-body {
-  font-family: 'Special Elite', serif;
-  font-size: 0.88rem;
-  line-height: 1.85;
-  color: rgba(240,230,204,0.75);
+.sobre-p {
+  font-size: 0.86rem;
+  line-height: 1.9;
+  color: rgba(237,224,196,0.7);
   margin-bottom: 1rem;
 }
-.sobre-body .acento { color: var(--papel); }
-.sobre-body .rojo { color: var(--rojo); }
+.sobre-p .ac { color: var(--papel); }
+.sobre-p .rj { color: var(--rojo); }
 
-/* Cita destacada */
 .pullquote {
-  margin: 2rem 0;
-  padding: 1.25rem 1.5rem;
+  margin: 1.75rem 0;
+  padding: 1.1rem 1.5rem;
   border-top: 3px solid var(--rojo);
-  border-bottom: 1px solid rgba(240,230,204,0.15);
+  border-bottom: 1px solid rgba(237,224,196,0.12);
 }
 .pullquote p {
   font-family: 'Black Han Sans', sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   line-height: 1.2;
   color: var(--papel);
-  letter-spacing: 1px;
 }
-.pullquote .lang-es { color: var(--rojo); }
-.pullquote .lang-fr { color: rgba(240,230,204,0.5); font-size: 0.85em; }
+.pullquote .es { color: var(--rojo); }
+.pullquote .fr { color: rgba(237,224,196,0.4); font-size: 0.82em; }
 
-/* Skills como banderas */
-.skills-flags {
+.flags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 1.5rem;
+  gap: 0.35rem;
+  margin-top: 1.25rem;
 }
-.flag-tag {
+.flag {
   font-family: 'Special Elite', serif;
-  font-size: 0.7rem;
-  padding: 0.2rem 0.6rem;
+  font-size: 0.68rem;
+  padding: 0.18rem 0.65rem;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-.flag-rojo { background: var(--rojo); color: var(--papel); }
-.flag-verde { background: var(--verde); color: var(--papel); }
-.flag-amarillo { background: var(--amarillo); color: var(--tinta); }
-.flag-outline { border: 1px solid rgba(240,230,204,0.25); color: rgba(240,230,204,0.5); }
+.f-rojo   { background: var(--rojo); color: var(--papel); }
+.f-verde  { background: var(--verde); color: var(--papel); }
+.f-am     { background: var(--amarillo); color: var(--tinta); }
+.f-out    { border: 1px solid rgba(237,224,196,0.2); color: rgba(237,224,196,0.45); }
 
-/* ====== BLOG ====== */
-.blog-section {
-  background: var(--papel);
-  padding: 5rem 2rem;
+/* ======================================================
+   VÍDEOS PREVIEW
+====================================================== */
+.videos-preview {
+  background: var(--papel-claro);
+  padding: 4rem 2rem;
   position: relative;
   overflow: hidden;
+  border-top: 1px solid rgba(23,15,5,0.1);
 }
-
-/* sello PRENSA LIBRE fondo */
-.blog-section::before {
-  content: 'PRENSA LIBRE';
+.videos-preview::after {
+  content: 'VIDEO';
   position: absolute;
-  right: -2rem;
-  top: 3rem;
+  right: -1rem; top: 2rem;
   font-family: 'Black Han Sans', sans-serif;
-  font-size: 5rem;
-  color: rgba(26,18,9,0.04);
+  font-size: 6rem;
+  color: rgba(23,15,5,0.035);
   writing-mode: vertical-rl;
   letter-spacing: 8px;
   pointer-events: none;
 }
 
-.blog-inner {
+.vp-inner {
   max-width: 1100px;
   margin: 0 auto;
 }
-
-.section-masthead {
+.vp-masthead {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   border-top: 4px solid var(--tinta);
-  border-bottom: 1px solid var(--tinta);
+  border-bottom: 1px solid rgba(23,15,5,0.2);
   padding: 0.4rem 0;
   margin-bottom: 2rem;
 }
-
-.section-masthead h2 {
+.vp-masthead h2 {
   font-family: 'Black Han Sans', sans-serif;
   font-size: 2rem;
   letter-spacing: 2px;
-  line-height: 1;
 }
-
-.masthead-sub {
-  font-family: 'Special Elite', serif;
-  font-size: 0.62rem;
+.vp-sub {
+  font-size: 0.6rem;
   color: var(--gris);
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
-/* Blog — disposición periódico */
-.blog-cols {
+.vp-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 0;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1px;
+  background: rgba(23,15,5,0.1);
+  border: 1px solid rgba(23,15,5,0.1);
+  margin-bottom: 1.5rem;
 }
-
-.blog-col-main {
-  padding-right: 2rem;
-  border-right: 1px solid rgba(26,18,9,0.15);
+.vp-card {
+  background: var(--papel-claro);
+  cursor: pointer;
+  transition: all 0.18s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
-
-.blog-col-side {
-  padding-left: 2rem;
+.vp-card:hover { background: var(--papel); z-index: 1; }
+.vp-thumb {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  background: var(--tinta);
+  overflow: hidden;
 }
+.vp-thumb img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: sepia(25%) contrast(1.05);
+  transition: filter 0.2s, transform 0.25s;
+}
+.vp-card:hover .vp-thumb img {
+  filter: sepia(0%) contrast(1.08);
+  transform: scale(1.04);
+}
+.vp-play {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(23,15,5,0);
+  transition: background 0.2s;
+}
+.vp-card:hover .vp-play { background: rgba(23,15,5,0.25); }
+.vp-play-btn {
+  width: 44px; height: 44px;
+  background: rgba(184,23,15,0.85);
+  border: 2px solid var(--papel);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: scale(0.7);
+  transition: all 0.2s;
+}
+.vp-card:hover .vp-play-btn { opacity: 1; transform: scale(1); }
+.vp-play-icon {
+  width: 0; height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 14px solid var(--papel);
+  margin-left: 3px;
+}
+.vp-body { padding: 0.75rem 0.85rem; border-top: 2px solid var(--tinta); }
+.vp-cat {
+  font-size: 0.55rem;
+  color: var(--rojo);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+.vp-title {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  color: var(--tinta);
+}
+.vp-card.big .vp-title { font-size: 1.2rem; }
 
-/* Post principal (grande) */
-.post-featured {
+/* ======================================================
+   BLOG
+====================================================== */
+.blog {
+  background: var(--papel);
+  padding: 5rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.blog::before {
+  content: 'PRENSA LIBRE';
+  position: absolute; right: -1rem; top: 2.5rem;
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 5rem;
+  color: rgba(23,15,5,0.032);
+  writing-mode: vertical-rl;
+  letter-spacing: 8px;
+  pointer-events: none;
+}
+.blog-inner { max-width: 1100px; margin: 0 auto; }
+
+.sec-masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-top: 4px solid var(--tinta);
+  border-bottom: 1px solid rgba(23,15,5,0.2);
+  padding: 0.4rem 0;
+  margin-bottom: 2rem;
+}
+.sec-masthead h2 {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 2rem; letter-spacing: 2px;
+}
+.sec-sub { font-size: 0.6rem; color: var(--gris); letter-spacing: 2px; text-transform: uppercase; }
+
+.blog-cols { display: grid; grid-template-columns: 2fr 1fr; gap: 0; }
+.blog-main { padding-right: 2rem; border-right: 1px solid rgba(23,15,5,0.12); }
+.blog-side  { padding-left: 2rem; }
+
+.post {
   margin-bottom: 2rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(26,18,9,0.12);
+  border-bottom: 1px solid rgba(23,15,5,0.1);
   cursor: pointer;
 }
-
+.post:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
 .post-tag {
-  font-family: 'Special Elite', serif;
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--rojo);
   margin-bottom: 0.4rem;
 }
-
 .post-title {
   font-family: 'Black Han Sans', sans-serif;
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   line-height: 1.1;
   color: var(--tinta);
-  margin-bottom: 0.6rem;
-  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
   transition: color 0.15s;
 }
-.post-featured:hover .post-title { color: var(--rojo); }
-
+.post:hover .post-title { color: var(--rojo); }
 .post-excerpt {
-  font-family: 'Special Elite', serif;
   font-size: 0.82rem;
   line-height: 1.75;
   color: var(--gris);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
 }
-
 .post-meta {
-  font-family: 'Special Elite', serif;
-  font-size: 0.6rem;
-  color: rgba(107,96,85,0.6);
+  font-size: 0.58rem;
+  color: rgba(94,83,71,0.55);
   letter-spacing: 2px;
   text-transform: uppercase;
-  display: flex;
-  gap: 1rem;
+  display: flex; gap: 1rem;
 }
-.post-meta span { display: flex; align-items: center; gap: 0.3rem; }
 
-/* Post secundario */
-.post-small {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  padding-bottom: 1.25rem;
-  margin-bottom: 1.25rem;
-  border-bottom: 1px solid rgba(26,18,9,0.1);
+.post-sm {
+  padding-bottom: 1.1rem;
+  margin-bottom: 1.1rem;
+  border-bottom: 1px solid rgba(23,15,5,0.08);
   cursor: pointer;
-  transition: all 0.15s;
 }
-.post-small:last-child { border-bottom: none; }
-.post-small:hover .post-title { color: var(--rojo); }
-.post-small .post-title { font-size: 0.95rem; margin-bottom: 0.3rem; }
-.post-small .post-excerpt { font-size: 0.75rem; }
+.post-sm:last-of-type { border-bottom: none; }
+.post-sm .post-title { font-size: 0.95rem; margin-bottom: 0.25rem; }
+.post-sm .post-excerpt { font-size: 0.74rem; }
+.post-sm:hover .post-title { color: var(--rojo); }
 
-/* Sello PRÓXIMAMENTE */
-.coming-soon-stamp {
+.soon-stamp {
   display: inline-block;
-  background: transparent;
-  border: 3px solid rgba(26,18,9,0.15);
-  color: rgba(26,18,9,0.2);
+  border: 3px solid rgba(23,15,5,0.12);
+  color: rgba(23,15,5,0.18);
   font-family: 'Black Han Sans', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   letter-spacing: 4px;
-  padding: 0.75rem 1.25rem;
-  transform: rotate(-3deg);
+  padding: 0.65rem 1rem;
+  transform: rotate(-2.5deg);
   margin-top: 1.5rem;
 }
 
-/* ====== FOOTER ====== */
+/* ======================================================
+   FOOTER
+====================================================== */
 footer {
   background: var(--tinta);
-  color: rgba(240,230,204,0.35);
-  padding: 2.5rem 2rem;
+  color: rgba(237,224,196,0.3);
+  padding: 3rem 2rem 2rem;
   border-top: 3px solid var(--rojo);
 }
-
 .footer-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+  max-width: 1100px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 2rem;
 }
-
 .footer-logo {
   font-family: 'Black Han Sans', sans-serif;
   font-size: 1.5rem;
   color: var(--papel);
-  letter-spacing: 3px;
+  letter-spacing: 4px;
+  margin-bottom: 0.5rem;
 }
-
-.footer-mantra {
+.footer-tagline {
   font-family: 'Covered By Your Grace', cursive;
-  font-size: 0.9rem;
-  color: rgba(240,230,204,0.3);
-  line-height: 1.8;
-  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(237,224,196,0.25);
+  line-height: 2;
 }
-
-.footer-links {
+.footer-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  text-align: right;
+  align-items: center;
+  gap: 0.35rem;
 }
-.footer-links a {
-  color: rgba(240,230,204,0.35);
+.footer-nav a {
+  color: rgba(237,224,196,0.3);
   text-decoration: none;
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   transition: color 0.15s;
 }
-.footer-links a:hover { color: var(--rojo); }
-
-.footer-copy {
-  width: 100%;
-  text-align: center;
+.footer-nav a:hover { color: var(--rojo); }
+.footer-nav-title {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 0.6rem;
+  color: rgba(237,224,196,0.15);
+  letter-spacing: 3px;
+  margin-bottom: 0.25rem;
+}
+.footer-right { text-align: right; }
+.footer-mantra {
   font-size: 0.6rem;
   letter-spacing: 2px;
-  border-top: 1px solid rgba(240,230,204,0.08);
-  margin-top: 1.5rem;
+  text-transform: uppercase;
+  line-height: 2.2;
+  color: rgba(237,224,196,0.18);
+}
+.footer-copy {
+  max-width: 1100px; margin: 0 auto;
+  font-size: 0.55rem;
+  letter-spacing: 2px;
+  border-top: 1px solid rgba(237,224,196,0.06);
   padding-top: 1.5rem;
-  color: rgba(240,230,204,0.2);
+  text-align: center;
+  color: rgba(237,224,196,0.15);
 }
 
-/* ====== RESPONSIVE ====== */
-@media (max-width: 800px) {
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+@media (max-width: 900px) {
   .hero-inner { grid-template-columns: 1fr; }
-  .hero-side { padding: 1rem 0 0; border-top: 1px solid var(--tinta); }
+  .hero-side { padding: 0; border-top: 2px solid var(--tinta); margin-top: 1rem; }
   .hero-main { border-right: none; padding-right: 0; }
-  .hero-body-text { column-count: 1; }
+  .body-cols { column-count: 1; }
   .sobre-inner { grid-template-columns: 1fr; gap: 2rem; }
-  .sobre-left { display: none; }
+  .foto-col { display: none; }
   .blog-cols { grid-template-columns: 1fr; }
-  .blog-col-main { border-right: none; padding-right: 0; }
-  .blog-col-side { padding-left: 0; border-top: 1px solid rgba(26,18,9,0.1); margin-top: 2rem; padding-top: 2rem; }
-  .nav-links { display: none; position: absolute; top: var(--nav-h); left: 0; right: 0; flex-direction: column; background: var(--tinta); border-bottom: 2px solid var(--rojo); padding: 0.5rem 0; }
+  .blog-main { border-right: none; padding-right: 0; }
+  .blog-side { padding-left: 0; border-top: 1px solid rgba(23,15,5,0.1); margin-top: 2rem; padding-top: 2rem; }
+  .vp-grid { grid-template-columns: 1fr 1fr; }
+  .vp-card.big { grid-column: span 2; }
+  .footer-inner { grid-template-columns: 1fr; text-align: center; }
+  .footer-right { text-align: center; }
+  .footer-nav { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+  .strip-pills { margin-left: 0; }
+}
+@media (max-width: 580px) {
+  nav { padding: 0; }
+  .nav-links { display: none; position: absolute; top: var(--nav-h); left: 0; right: 0; flex-direction: column; background: var(--tinta); border-bottom: 2px solid var(--rojo); }
   .nav-links.open { display: flex; }
-  .nav-links a { border-left: none; border-bottom: 1px solid rgba(240,230,204,0.08); padding: 0.75rem 2rem; }
+  .nav-links a { padding: 0.85rem 1.5rem; border-left: none; border-bottom: 1px solid rgba(237,224,196,0.07); }
+  .nav-links a::after { display: none; }
   .nav-burger { display: flex; }
-  .footer-inner { flex-direction: column; text-align: center; }
-  .footer-links { text-align: center; }
+  .headline { font-size: 3.2rem; }
+  .vp-grid { grid-template-columns: 1fr; }
+  .vp-card.big { grid-column: span 1; }
+  .hero-inner { padding: 1.5rem 1rem 2rem; }
+  .sobre { padding: 3.5rem 1rem; }
+  .blog { padding: 3.5rem 1rem; }
+  .videos-preview { padding: 3rem 1rem; }
 }
 </style>
 </head>
@@ -837,195 +1001,205 @@ footer {
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="index.html">UNCORRECTED</a>
+  <a class="nav-logo" href="index.html">UNCORRECTED<span>★</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html" class="active" data-section="hero">Home</a>
+    <a href="disco.html" class="nav-disco">★ Disco</a>
+    <a href="#sobre-mi" data-section="sobre-mi">Sobre mí</a>
+    <a href="videos.html">Vídeos</a>
+    <a href="#blog" data-section="blog">Blog</a>
+  </div>
   <button class="nav-burger" id="burger" aria-label="Menú">
     <span></span><span></span><span></span>
   </button>
-  <div class="nav-links" id="navLinks">
-    <a href="index.html" class="active">Home</a>
-    <a href="disco.html" class="nav-disco">★ Disco</a>
-    <a href="#sobre-mi">Sobre mí</a>
-    <a href="#blog">Blog</a>
-  </div>
 </nav>
 
-<!-- HERO — PERIÓDICO -->
-<section class="hero">
-  <div class="hero-newsprint" aria-hidden="true">
-    sin reglas sin filtros sin correcciones todo suena bien cuando raul cómo decir qué quieres que te diga menos mal bajo el sol resplandeciendo la historia de siempre perro vacilón amanecer sin reglas sin filtros sin correcciones todo suena bien cuando raul cómo decir qué quieres que te diga menos mal bajo el sol resplandeciendo la historia de siempre perro vacilón amanecer sin reglas sin filtros sin correcciones todo suena bien cuando raul cómo decir qué quieres que te diga menos mal bajo el sol resplandeciendo la historia de siempre perro vacilón amanecer sin reglas sin filtros sin correcciones todo suena bien cuando raul cómo decir qué quieres que te diga menos mal bajo el sol resplandeciendo la historia de siempre perro vacilón amanecer sin reglas sin filtros sin correcciones todo suena bien cuando raul cómo decir qué quieres que te diga menos mal bajo el sol resplandeciendo la historia de siempre perro vacilón amanecer sin reglas sin filtros sin correcciones todo suena bien cuando raul cómo decir qué quieres que te diga menos mal bajo el sol resplandeciendo la historia de siempre perro vacilón amanecer sin reglas sin filtros sin correcciones todo suena bien cuando raul cómo decir qué quieres que te diga menos mal bajo el sol resplandeciendo
-  </div>
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-newsprint" aria-hidden="true">sin reglas sin filtros sin correcciones todo suena bien cuando david cómo decir qué quieres que te diga menos mal bajo el sol resplandeciendo la historia de siempre perro vacilón amanecer sin reglas sin filtros sin correcciones todo suena bien cuando david sans règles sans filtres uncorrected no rules no filters no corrections sem correção sem regras sin reglas sin filtros sin correcciones todo suena bien cuando david cómo decir qué quieres que te diga menos mal bajo el sol resplandeciendo la historia de siempre perro vacilón amanecer sin reglas sin filtros sin correcciones todo suena bien cuando david sans règles sans filtres uncorrected no rules no filters no corrections sem correção sem regras sin reglas sin filtros sin correcciones</div>
 
   <div class="hero-inner">
-
-    <!-- cabecera periódico -->
-    <div class="paper-header">
-      <div class="paper-title-row">
-        La Voz Uncorrected &nbsp;·&nbsp; Música Sin Filtros &nbsp;·&nbsp; Edición Especial
-      </div>
-      <div class="paper-edition">
-        Vol. I &nbsp;·&nbsp; 2025 &nbsp;·&nbsp; 7 canciones &nbsp;·&nbsp; precio: tu tiempo
-      </div>
+    <!-- MASTHEAD -->
+    <div class="masthead reveal">
+      <div class="masthead-left">La Voz Uncorrected &nbsp;·&nbsp; Música Sin Filtros &nbsp;·&nbsp; Edición Especial</div>
+      <div class="masthead-date" id="currentDate"></div>
+      <div class="masthead-right">Vol. I &nbsp;·&nbsp; 7 canciones &nbsp;·&nbsp; precio: tu tiempo</div>
     </div>
-
-    <!-- divisor grueso rojo -->
-    <div class="paper-divider-row">
-      <div class="pd-thick"></div>
-      <div class="pd-red"></div>
-      <div class="pd-thick"></div>
+    <div class="tricolor reveal">
+      <div class="tc-1"></div><div class="tc-2"></div><div class="tc-3"></div><div class="tc-4"></div>
     </div>
 
     <!-- COLUMNA PRINCIPAL -->
     <div class="hero-main">
-      <div class="hero-kicker">álbum debut &nbsp;·&nbsp; premier &nbsp;·&nbsp; estreno</div>
-
-      <h1 class="hero-headline">
-        <span class="word-stamp">SIN</span><br>
-        CORREC<span class="word-red">—</span><br>
+      <div class="kicker reveal reveal-delay-1">álbum debut &nbsp;·&nbsp; premier &nbsp;·&nbsp; estreno</div>
+      <h1 class="headline reveal reveal-delay-2">
+        <span class="stamp">SIN</span><br>
+        CORREC<span class="dash">—</span><br>
         CIONES
       </h1>
-
-      <div class="hero-multilang">
-        <span class="lang-item">ES — <strong>sin filtros</strong></span>
-        <span class="lang-item">FR — <strong>sans règles</strong></span>
-        <span class="lang-item">EN — <strong>uncorrected</strong></span>
-        <span class="lang-item">PT — <strong>sem correção</strong></span>
+      <div class="multilang reveal reveal-delay-3">
+        <span class="lang-pill">ES — <strong>sin filtros</strong></span>
+        <span class="lang-pill">FR — <strong>sans règles</strong></span>
+        <span class="lang-pill">EN — <strong>uncorrected</strong></span>
+        <span class="lang-pill">PT — <strong>sem correção</strong></span>
       </div>
-
-      <div class="hero-body-text">
-        <p class="dropcap">Todo empezó con un cuaderno y demasiado café. Siete canciones grabadas lejos del ruido del mercado, sin productor que corrija, sin sello que apruebe. Solo Raul y lo que necesitaba decir.</p>
-        <p>Del synth analógico de los 80 a la guitarra de barrio, UNCORRECTED mezcla idiomas, géneros y épocas como los carteles pegados en una pared de Madrid — caótico, honesto, vivo.</p>
+      <div class="body-cols reveal reveal-delay-3">
+        <p class="dropcap">Todo empezó con un cuaderno y demasiado café. Siete canciones grabadas lejos del ruido del mercado, sin productor que corrija, sin sello que apruebe. Solo David y lo que necesitaba decir.</p>
+        <p>Del synth analógico de los 80 a la guitarra de barrio, UNCORRECTED mezcla idiomas, géneros y épocas como los carteles pegados en una pared — caótico, honesto, vivo.</p>
         <p>Como decía alguien en algún puerto: <em>"la música no tiene pasaporte"</em>. Este disco tampoco.</p>
         <p>Siete pistas. Ningún filtro. Ninguna corrección. Un manifiesto.</p>
       </div>
-
-      <div class="hero-ctas">
-        <a href="disco.html" class="btn-stamp btn-stamp-rojo">▶ Escuchar el disco</a>
-        <a href="#sobre-mi" class="btn-stamp btn-stamp-outline">Sobre mí</a>
+      <div class="ctas reveal reveal-delay-4">
+        <a href="disco.html" class="btn btn-rojo">▶ Escuchar el disco</a>
+        <a href="videos.html" class="btn btn-verde">▶ Ver vídeos</a>
+        <a href="#sobre-mi" class="btn btn-outline">Sobre mí</a>
       </div>
     </div>
 
     <!-- COLUMNA LATERAL -->
-    <div class="hero-side">
-      <div class="cover-card">
-        <div class="sticker sticker-1">NUEVO<br>ÁLBUM<br>2025</div>
-        <div class="cover-card-inner">
-          <div class="cover-grid-bg"></div>
-          <div class="cover-album-name">UNCO<br>RREC<br>TED</div>
-          <div class="cover-bottom">
-            <div class="cover-artist">todo suena bien<br>cuando raul</div>
-            <div class="cover-pistas">07</div>
+    <div class="hero-side reveal reveal-delay-2">
+      <div class="cover-wrap">
+        <div class="sticker">NUEVO<br>ÁLBUM<br>2025</div>
+        <div class="cover-card">
+          <div class="cover-inner">
+            <div class="cover-grid"></div>
+            <div class="cover-title">UNCO<br>RREC<br>TED</div>
+            <div class="cover-foot">
+              <div class="cover-artist">todo suena bien<br>cuando david</div>
+              <div class="cover-num">07</div>
+            </div>
           </div>
         </div>
       </div>
 
       <ul class="side-tracklist">
-        <li><span class="sn">1.</span><span class="strack">Cómo decir</span><span class="sdur">3:24</span></li>
-        <li><span class="sn">2.</span><span class="strack">Qué quieres que te diga</span><span class="sdur">3:47</span></li>
-        <li><span class="sn">3.</span><span class="strack">Menos mal</span><span class="sdur">2:58</span></li>
-        <li><span class="sn">4.</span><span class="strack">Bajo el sol resplandeciendo</span><span class="sdur">4:12</span></li>
-        <li><span class="sn">5.</span><span class="strack">La historia de siempre</span><span class="sdur">3:33</span></li>
-        <li><span class="sn">6.</span><span class="strack">Perro vacilón</span><span class="sdur">3:05</span></li>
-        <li><span class="sn">7.</span><span class="strack">Amanecer ☀</span><span class="sdur">4:50</span></li>
+        <li onclick="location.href='disco.html'"><span class="sn">1.</span><span class="st">Cómo decir</span><span class="sd">3:24</span></li>
+        <li onclick="location.href='disco.html'"><span class="sn">2.</span><span class="st">Qué quieres que te diga</span><span class="sd">3:47</span></li>
+        <li onclick="location.href='disco.html'"><span class="sn">3.</span><span class="st">Menos mal</span><span class="sd">2:58</span></li>
+        <li onclick="location.href='disco.html'"><span class="sn">4.</span><span class="st">Bajo el sol resplandeciendo</span><span class="sd">4:12</span></li>
+        <li onclick="location.href='disco.html'"><span class="sn">5.</span><span class="st">La historia de siempre</span><span class="sd">3:33</span></li>
+        <li onclick="location.href='disco.html'"><span class="sn">6.</span><span class="st">Perro vacilón</span><span class="sd">3:05</span></li>
+        <li onclick="location.href='disco.html'"><span class="sn">7.</span><span class="st">Amanecer ☀</span><span class="sd">4:50</span></li>
       </ul>
 
-      <a href="disco.html" class="listen-link">★ ESCUCHAR AHORA ★</a>
+      <a href="disco.html" class="listen-btn">★ escuchar ahora en spotify ★</a>
     </div>
+  </div>
 
+  <div class="scroll-ind" aria-hidden="true">scroll</div>
+</section>
+
+<!-- STRIP -->
+<div class="album-strip reveal">
+  <div class="strip-inner">
+    <div>
+      <div class="strip-label">// nuevo álbum · 2025</div>
+      <div class="strip-title">UNCORRECTED</div>
+      <div class="strip-meta">7 pistas · sin reglas · sin filtros · spotify</div>
+    </div>
+    <div class="strip-pills">
+      <span class="strip-pill">Cómo decir</span>
+      <span class="strip-pill">Menos mal</span>
+      <span class="strip-pill">Perro vacilón</span>
+      <span class="strip-pill">Amanecer</span>
+      <span class="strip-pill">+ 3 más</span>
+    </div>
+    <a href="disco.html" class="btn btn-rojo" style="flex-shrink:0;">Ver disco →</a>
+  </div>
+</div>
+
+<!-- SOBRE MÍ -->
+<section class="sobre" id="sobre-mi">
+  <div class="sobre-inner">
+    <div class="foto-col reveal">
+      <div class="foto-side-label">artista · músico · productor</div>
+      <div class="foto-frame">
+        <div class="foto-inner"></div>
+        <div class="foto-caption">david · 2025 · sin retoques</div>
+      </div>
+    </div>
+    <div>
+      <div class="sobre-label reveal">// sobre mí — about me — sur moi</div>
+      <h2 class="sobre-h2 reveal">SIN<br><span class="accent">MÁS</span><br>CARA</h2>
+      <p class="sobre-p reveal reveal-delay-1">
+        Soy <span class="ac">David</span>, músico y productor que lleva años haciendo ruido bonito desde casa. <span class="rj">UNCORRECTED</span> es mi primer álbum en solitario — siete canciones grabadas sin plan, sin presupuesto y sin pedir permiso.
+      </p>
+      <p class="sobre-p reveal reveal-delay-2">
+        Crecí entre sintetizadores de los 80 y cuadernos llenos de garabatos. La música siempre fue el único sitio donde no había que corregirse ni disculparse. Como en los mercados de Bamako, en los puertos de Marsella o en las plazas de Buenos Aires — <span class="ac">la música no pregunta de dónde vienes</span>.
+      </p>
+      <p class="sobre-p reveal reveal-delay-2">
+        Este proyecto nació de una frase simple: <span class="rj">todo suena bien cuando david</span>. No como arrogancia — como mantra. Como recordatorio de que el mejor filtro es no tener ninguno.
+      </p>
+      <div class="pullquote reveal reveal-delay-3">
+        <p><span class="es">"sin reglas · sin filtros"</span><br><span class="fr">sans règles · sans filtres · uncorrected</span></p>
+      </div>
+      <div class="flags reveal reveal-delay-3">
+        <span class="flag f-rojo">Producción</span>
+        <span class="flag f-verde">Síntesis</span>
+        <span class="flag f-am">Letras</span>
+        <span class="flag f-out">Mezcla</span>
+        <span class="flag f-out">Lo-fi</span>
+        <span class="flag f-rojo">Synthwave</span>
+        <span class="flag f-verde">Guitarra</span>
+        <span class="flag f-out">Loops</span>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- SOBRE MÍ -->
-<section class="sobre-section" id="sobre-mi">
-  <div class="sobre-inner">
-    <div class="sobre-left">
-      <div class="rotated-label">ARTISTA · MÚSICO · PRODUCTOR</div>
-      <div class="foto-box"></div>
-      <div class="foto-caption">raul · 2025 · sin retoques</div>
+<!-- VÍDEOS PREVIEW -->
+<section class="videos-preview" id="videos">
+  <div class="vp-inner">
+    <div class="vp-masthead reveal">
+      <h2>ARCHIVO VISUAL</h2>
+      <span class="vp-sub">directos · clips · sesiones</span>
     </div>
-
-    <div class="sobre-right">
-      <div class="sobre-tag">// sobre mí — about me — sur moi</div>
-      <h2 class="sobre-title">SIN<br><span style="color:var(--rojo)">MÁS</span><br>CARA</h2>
-
-      <p class="sobre-body">
-        Soy <span class="acento">Raul</span>, músico y productor que lleva años haciendo ruido bonito desde casa. <span class="rojo">UNCORRECTED</span> es mi primer álbum en solitario — siete canciones grabadas sin plan, sin presupuesto y sin pedir permiso.
-      </p>
-      <p class="sobre-body">
-        Crecí entre sintetizadores de los 80 y cuadernos llenos de garabatos. La música siempre fue el único sitio donde no había que corregirse ni disculparse. Como en los mercados de Bamako, en los puertos de Marsella o en las plazas de Buenos Aires — <span class="acento">la música no pregunta de dónde vienes</span>.
-      </p>
-      <p class="sobre-body">
-        Este proyecto nació de una frase simple: <span class="rojo">todo suena bien cuando raul</span>. No como arrogancia — como mantra. Como recordatorio de que el mejor filtro es no tener ninguno.
-      </p>
-
-      <div class="pullquote">
-        <p><span class="lang-es">"sin reglas · sin filtros"</span><br><span class="lang-fr">sans règles · sans filtres · uncorrected</span></p>
-      </div>
-
-      <div class="skills-flags">
-        <span class="flag-tag flag-rojo">Producción</span>
-        <span class="flag-tag flag-verde">Síntesis</span>
-        <span class="flag-tag flag-amarillo">Letras</span>
-        <span class="flag-tag flag-outline">Mezcla</span>
-        <span class="flag-tag flag-outline">Lo-fi</span>
-        <span class="flag-tag flag-rojo">Synthwave</span>
-        <span class="flag-tag flag-verde">Guitarra</span>
-        <span class="flag-tag flag-outline">Loops</span>
-      </div>
+    <div class="vp-grid reveal" id="vpGrid">
+      <!-- se rellena con JS desde datos/videos.json -->
+    </div>
+    <div class="reveal" style="text-align:center;">
+      <a href="videos.html" class="btn btn-outline">Ver todos los vídeos →</a>
     </div>
   </div>
 </section>
 
 <!-- BLOG -->
-<section class="blog-section" id="blog">
+<section class="blog" id="blog">
   <div class="blog-inner">
-    <div class="section-masthead">
+    <div class="sec-masthead reveal">
       <h2>BLOG &amp; PRENSA</h2>
-      <span class="masthead-sub">crónicas · reflexiones · proceso</span>
+      <span class="sec-sub">crónicas · reflexiones · proceso</span>
     </div>
-
     <div class="blog-cols">
-      <div class="blog-col-main">
-        <!-- Post grande -->
-        <article class="post-featured">
+      <div class="blog-main">
+        <article class="post reveal">
           <div class="post-tag">★ Producción · destacado</div>
           <h3 class="post-title">Cómo grabé un álbum entero sin salir de casa</h3>
           <p class="post-excerpt">Un cuaderno, un teclado viejo y demasiado café. Así nació UNCORRECTED. Sin estudio, sin ingeniero de sonido, sin plan. Solo la convicción de que si suena bien en los auriculares de casa, suena bien en cualquier parte.</p>
-          <div class="post-meta">
-            <span>Junio 2025</span>
-            <span>5 min lectura</span>
-          </div>
+          <div class="post-meta"><span>Junio 2025</span><span>5 min lectura</span></div>
         </article>
-
-        <!-- Post mediano -->
-        <article class="post-featured" style="margin-bottom:0; padding-bottom:0; border-bottom:none;">
+        <article class="post reveal reveal-delay-1">
           <div class="post-tag">Proceso · synth</div>
           <h3 class="post-title">El synth que cambió cómo entiendo la música</h3>
           <p class="post-excerpt">No es el más caro ni el más moderno. Pero tiene algo que los plug-ins digitales no pueden copiar: carácter propio. Ese chirrido analógico que no es un bug — es la firma.</p>
-          <div class="post-meta">
-            <span>Mayo 2025</span>
-            <span>4 min lectura</span>
-          </div>
+          <div class="post-meta"><span>Mayo 2025</span><span>4 min lectura</span></div>
         </article>
       </div>
-
-      <div class="blog-col-side">
-        <div class="sobre-tag" style="margin-bottom:1rem;">// también en el bloc</div>
-
-        <article class="post-small">
+      <div class="blog-side">
+        <div class="sobre-label reveal" style="margin-bottom:1rem;">// también en el bloc</div>
+        <article class="post-sm reveal reveal-delay-1">
           <div class="post-tag">Reflexión</div>
           <h4 class="post-title">Por qué no uso autotune</h4>
           <p class="post-excerpt">Una razón simple: no me interesa sonar perfecto.</p>
           <div class="post-meta"><span>Abril 2025</span></div>
         </article>
-
-        <article class="post-small">
+        <article class="post-sm reveal reveal-delay-2">
           <div class="post-tag">Gear</div>
           <h4 class="post-title">Mi setup de 200€ para grabar en casa</h4>
           <p class="post-excerpt">No necesitas un estudio de miles. Solo saber dónde mirar.</p>
           <div class="post-meta"><span>Marzo 2025</span></div>
         </article>
-
-        <div class="coming-soon-stamp">MÁS<br>PRONTO</div>
+        <div class="soon-stamp reveal reveal-delay-3">MÁS<br>PRONTO</div>
       </div>
     </div>
   </div>
@@ -1034,26 +1208,112 @@ footer {
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-logo">UNCORRECTED</div>
-    <div class="footer-mantra">
-      sin reglas<br>
-      sin filtros<br>
-      sin correcciones
+    <div>
+      <div class="footer-logo">UNCORRECTED</div>
+      <div class="footer-tagline">sin reglas<br>sin filtros<br>sin correcciones</div>
     </div>
-    <div class="footer-links">
+    <div class="footer-nav">
+      <div class="footer-nav-title">// navegación</div>
       <a href="index.html">Home</a>
       <a href="disco.html">Disco</a>
+      <a href="videos.html">Vídeos</a>
       <a href="#sobre-mi">Sobre mí</a>
       <a href="#blog">Blog</a>
     </div>
+    <div class="footer-right">
+      <div class="footer-mantra">
+        SIN REGLAS<br>SIN FILTROS<br>SIN CORRECCIONES<br><br>
+        DAVID · 2025
+      </div>
+    </div>
   </div>
-  <div class="footer-copy">© 2025 UNCORRECTED · todo suena bien cuando raul · sin reglas · sin filtros · sin correcciones</div>
+  <div class="footer-copy">© 2025 UNCORRECTED · todo suena bien cuando david · sin reglas · sin filtros · sin correcciones</div>
 </footer>
 
 <script>
-document.getElementById('burger').addEventListener('click', () =>
-  document.getElementById('navLinks').classList.toggle('open')
-);
+/* ---- Fecha dinámica en el masthead ---- */
+(function() {
+  var meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  var d = new Date();
+  var txt = meses[d.getMonth()].toUpperCase() + ' ' + d.getFullYear();
+  var el = document.getElementById('currentDate');
+  if (el) el.textContent = txt;
+})();
+
+/* ---- Burger ---- */
+var burger = document.getElementById('burger');
+var navLinks = document.getElementById('navLinks');
+burger.addEventListener('click', function() {
+  navLinks.classList.toggle('open');
+  burger.classList.toggle('open');
+});
+
+/* ---- Scroll spy — resalta el nav link activo ---- */
+var sections = ['hero','sobre-mi','blog'];
+var navAs = document.querySelectorAll('.nav-links a[data-section]');
+function onScroll() {
+  var scrollY = window.scrollY + 100;
+  sections.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (scrollY >= el.offsetTop && scrollY < el.offsetTop + el.offsetHeight) {
+      navAs.forEach(function(a) {
+        a.classList.toggle('active', a.dataset.section === id);
+      });
+    }
+  });
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+
+/* ---- Intersection Observer — animaciones de entrada ---- */
+var reveals = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(function(el) { observer.observe(el); });
+
+/* ---- Vídeos preview desde datos/videos.json ---- */
+fetch('datos/videos.json')
+  .then(function(r) { return r.json(); })
+  .then(function(videos) {
+    var grid = document.getElementById('vpGrid');
+    if (!grid || !videos.length) return;
+    var preview = videos.slice(0, 3);
+    preview.forEach(function(v, i) {
+      var thumb = 'https://img.youtube.com/vi/' + v.id + '/mqdefault.jpg';
+      var card = document.createElement('a');
+      card.href = 'videos.html';
+      card.className = 'vp-card' + (i === 0 ? ' big' : '');
+      card.innerHTML =
+        '<div class="vp-thumb">' +
+          '<img src="' + thumb + '" alt="' + v.titulo + '" loading="lazy">' +
+          '<div class="vp-play"><div class="vp-play-btn"><div class="vp-play-icon"></div></div></div>' +
+        '</div>' +
+        '<div class="vp-body">' +
+          '<div class="vp-cat">' + v.cat + '</div>' +
+          '<div class="vp-title">' + v.titulo + '</div>' +
+        '</div>';
+      grid.appendChild(card);
+    });
+  })
+  .catch(function() {
+    // Si no hay servidor (file://) mostramos placeholder
+    var grid = document.getElementById('vpGrid');
+    if (grid) {
+      grid.innerHTML =
+        '<a href="videos.html" class="vp-card big" style="text-decoration:none;">' +
+          '<div class="vp-body" style="padding:2rem;text-align:center;">' +
+            '<div class="vp-cat">// archivo visual</div>' +
+            '<div class="vp-title" style="font-size:1.4rem;">Ver todos los vídeos →</div>' +
+          '</div>' +
+        '</a>';
+    }
+  });
 </script>
 </body>
 </html>
