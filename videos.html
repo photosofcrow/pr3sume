@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNCORRECTED — Vídeos</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Special+Elite&family=Covered+By+Your+Grace&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --papel: #F0E6CC;
+  --papel-oscuro: #D9C9A3;
+  --papel-sombra: #C4B08A;
+  --tinta: #1A1209;
+  --rojo: #C41A15;
+  --verde: #2A5A28;
+  --amarillo: #D4A017;
+  --gris: #6B6055;
+  --nav-h: 58px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: 'Special Elite', serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* grain */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9000;
+}
+
+/* líneas periódico de fondo */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg, transparent, transparent 22px,
+    rgba(26,18,9,0.035) 22px, rgba(26,18,9,0.035) 23px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ====== NAV ====== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  z-index: 5000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  background: var(--tinta);
+  border-bottom: 3px solid var(--rojo);
+}
+
+.nav-logo {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 1.3rem;
+  color: var(--papel);
+  text-decoration: none;
+  letter-spacing: 3px;
+}
+.nav-logo::after { content: '★'; color: var(--rojo); font-size: 0.7rem; margin-left: 6px; vertical-align: super; }
+
+.nav-links { display: flex; align-items: center; gap: 0; }
+.nav-links a {
+  color: rgba(240,230,204,0.5);
+  text-decoration: none;
+  font-family: 'Special Elite', serif;
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0.4rem 1rem;
+  border-left: 1px solid rgba(240,230,204,0.1);
+  transition: color 0.15s, background 0.15s;
+}
+.nav-links a:last-child { border-right: 1px solid rgba(240,230,204,0.1); }
+.nav-links a:hover { color: var(--papel); background: rgba(196,26,21,0.2); }
+.nav-links a.active { color: var(--rojo); }
+.nav-links a.nav-disco {
+  color: var(--papel); background: var(--rojo);
+  border-color: var(--rojo); font-family: 'Black Han Sans', sans-serif; letter-spacing: 2px;
+}
+.nav-links a.nav-disco:hover { background: #9e1410; }
+
+.nav-burger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; background: none; border: none; padding: 4px;
+}
+.nav-burger span { display: block; width: 22px; height: 2px; background: var(--papel); }
+
+/* ====== MODAL LIGHTBOX ====== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26,18,9,0.92);
+  z-index: 8000;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.modal-overlay.open { display: flex; }
+
+.modal-box {
+  width: 100%;
+  max-width: 860px;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.modal-title {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 1.4rem;
+  color: var(--papel);
+  letter-spacing: 1px;
+  line-height: 1.1;
+}
+
+.modal-meta {
+  font-size: 0.62rem;
+  color: rgba(240,230,204,0.35);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+}
+
+.modal-close {
+  background: var(--rojo);
+  color: var(--papel);
+  border: none;
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.modal-close:hover { background: #9e1410; }
+
+.modal-video {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  background: #000;
+  border: 2px solid var(--rojo);
+}
+.modal-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+  gap: 1rem;
+}
+
+.modal-desc {
+  font-family: 'Special Elite', serif;
+  font-size: 0.75rem;
+  color: rgba(240,230,204,0.45);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.modal-nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.btn-modal-nav {
+  background: transparent;
+  border: 1px solid rgba(240,230,204,0.2);
+  color: rgba(240,230,204,0.5);
+  font-family: 'Special Elite', serif;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.15s;
+}
+.btn-modal-nav:hover { border-color: var(--rojo); color: var(--papel); }
+
+/* ====== PAGE CONTENT ====== */
+.page {
+  position: relative;
+  z-index: 1;
+  padding-top: var(--nav-h);
+}
+
+/* CABECERA PERIÓDICO */
+.page-header {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 2rem 0;
+}
+
+.paper-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 4px solid var(--tinta);
+  border-bottom: 1px solid var(--tinta);
+  padding: 0.4rem 0;
+  margin-bottom: 0;
+}
+
+.paper-top-left {
+  font-size: 0.6rem;
+  color: var(--gris);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.paper-top-right {
+  font-size: 0.6rem;
+  color: var(--gris);
+  letter-spacing: 1px;
+  text-align: right;
+}
+
+.paper-divider {
+  display: flex;
+  margin-bottom: 0;
+}
+.pd-thick { flex: 1; height: 4px; background: var(--tinta); }
+.pd-red   { width: 80px; height: 4px; background: var(--rojo); }
+
+.page-title-row {
+  padding: 1.5rem 0 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.page-title {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 0.9;
+  letter-spacing: 1px;
+  color: var(--tinta);
+}
+
+.page-title .red { color: var(--rojo); }
+
+.page-kicker {
+  font-size: 0.65rem;
+  color: var(--gris);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: right;
+  max-width: 200px;
+  line-height: 1.8;
+}
+
+.section-rule {
+  border: none;
+  border-top: 1px solid rgba(26,18,9,0.2);
+  margin: 1.5rem 0 0;
+}
+
+/* FILTROS */
+.filters-bar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid rgba(26,18,9,0.12);
+}
+
+.filter-label {
+  font-size: 0.6rem;
+  color: var(--gris);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-right: 0.5rem;
+}
+
+.filter-btn {
+  font-family: 'Special Elite', serif;
+  font-size: 0.68rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid rgba(26,18,9,0.2);
+  background: transparent;
+  color: var(--gris);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.filter-btn:hover { border-color: var(--tinta); color: var(--tinta); }
+.filter-btn.active { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.filter-btn.active.rojo { background: var(--rojo); border-color: var(--rojo); }
+
+.video-count {
+  margin-left: auto;
+  font-size: 0.6rem;
+  color: var(--gris);
+  letter-spacing: 2px;
+}
+
+/* ====== GRID ====== */
+.grid-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 2rem 5rem;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 0;
+}
+
+/* CARD */
+.video-card {
+  border: 1px solid rgba(26,18,9,0.12);
+  border-collapse: collapse;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--papel);
+  position: relative;
+  margin: -0.5px;
+}
+
+.video-card:hover {
+  z-index: 2;
+  border-color: var(--rojo);
+  box-shadow: 4px 4px 0 rgba(196,26,21,0.15);
+}
+
+/* thumbnail área */
+.card-thumb {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  background: var(--tinta);
+  overflow: hidden;
+}
+
+.card-thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: sepia(30%) contrast(1.05);
+  transition: filter 0.2s, transform 0.2s;
+}
+
+.video-card:hover .card-thumb img {
+  filter: sepia(0%) contrast(1.1);
+  transform: scale(1.03);
+}
+
+/* overlay play */
+.thumb-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(26,18,9,0);
+  transition: background 0.2s;
+}
+.video-card:hover .thumb-overlay { background: rgba(26,18,9,0.3); }
+
+.play-btn {
+  width: 50px; height: 50px;
+  border: 2px solid var(--papel);
+  background: rgba(196,26,21,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.2s;
+}
+.video-card:hover .play-btn { opacity: 1; transform: scale(1); }
+
+.play-icon {
+  width: 0; height: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 16px solid var(--papel);
+  margin-left: 3px;
+}
+
+/* tag en thumbnail */
+.thumb-tag {
+  position: absolute;
+  top: 0.6rem; left: 0.6rem;
+  background: var(--rojo);
+  color: var(--papel);
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 2px;
+  padding: 0.15rem 0.5rem;
+  text-transform: uppercase;
+}
+
+.thumb-duration {
+  position: absolute;
+  bottom: 0.5rem; right: 0.5rem;
+  background: rgba(26,18,9,0.75);
+  color: var(--papel);
+  font-family: 'Special Elite', serif;
+  font-size: 0.62rem;
+  padding: 0.1rem 0.4rem;
+  letter-spacing: 1px;
+}
+
+/* card body */
+.card-body {
+  padding: 0.9rem 1rem;
+  border-top: 2px solid var(--tinta);
+}
+
+.card-num {
+  font-size: 0.58rem;
+  color: var(--gris);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.card-title {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 1rem;
+  line-height: 1.15;
+  color: var(--tinta);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.5px;
+}
+
+.card-desc {
+  font-family: 'Special Elite', serif;
+  font-size: 0.72rem;
+  color: var(--gris);
+  line-height: 1.55;
+  margin-bottom: 0.6rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(26,18,9,0.1);
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.card-date {
+  font-size: 0.58rem;
+  color: rgba(107,96,85,0.6);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.card-cat {
+  font-size: 0.55rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  border: 1px solid;
+}
+.cat-directo  { color: var(--rojo);  border-color: var(--rojo); }
+.cat-estudio  { color: var(--verde); border-color: var(--verde); }
+.cat-acustico { color: var(--amarillo); border-color: var(--amarillo); }
+.cat-clip     { color: var(--tinta); border-color: var(--tinta); }
+
+/* CARD FEATURED (primera, más grande) */
+.video-card.featured {
+  grid-column: span 2;
+}
+.video-card.featured .card-title { font-size: 1.4rem; }
+.video-card.featured .card-desc { -webkit-line-clamp: 3; }
+
+/* NO RESULTS */
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  border: 1px dashed rgba(26,18,9,0.2);
+}
+.no-results p {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 1.5rem;
+  color: rgba(26,18,9,0.15);
+  letter-spacing: 3px;
+}
+
+/* ====== FOOTER ====== */
+footer {
+  background: var(--tinta);
+  color: rgba(240,230,204,0.25);
+  padding: 2rem;
+  border-top: 3px solid var(--rojo);
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-logo {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 1.2rem;
+  color: var(--papel);
+  letter-spacing: 3px;
+}
+.footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-links a {
+  color: rgba(240,230,204,0.3);
+  text-decoration: none;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.15s;
+}
+.footer-links a:hover { color: var(--rojo); }
+.footer-copy {
+  width: 100%;
+  text-align: center;
+  font-size: 0.58rem;
+  letter-spacing: 2px;
+  border-top: 1px solid rgba(240,230,204,0.07);
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  color: rgba(240,230,204,0.15);
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 900px) {
+  .video-card.featured { grid-column: span 1; }
+  .video-card.featured .card-title { font-size: 1rem; }
+}
+@media (max-width: 680px) {
+  .video-grid { grid-template-columns: 1fr; }
+  .page-title { font-size: 2.8rem; }
+  .page-title-row { flex-direction: column; gap: 0.5rem; }
+  .page-kicker { text-align: left; max-width: none; }
+  nav { padding: 0 1.25rem; }
+  .nav-links { display: none; position: absolute; top: var(--nav-h); left: 0; right: 0; flex-direction: column; background: var(--tinta); border-bottom: 2px solid var(--rojo); padding: 0.5rem 0; }
+  .nav-links.open { display: flex; }
+  .nav-links a { border-left: none; border-bottom: 1px solid rgba(240,230,204,0.08); padding: 0.75rem 2rem; }
+  .nav-burger { display: flex; }
+  .modal-overlay { padding: 1rem; }
+  .modal-title { font-size: 1rem; }
+  .filters-bar { padding: 0.75rem 1rem; }
+  .grid-section { padding: 1.5rem 1rem 4rem; }
+  .page-header { padding: 1.25rem 1rem 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">UNCORRECTED</a>
+  <button class="nav-burger" id="burger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="disco.html" class="nav-disco">★ Disco</a>
+    <a href="index.html#sobre-mi">Sobre mí</a>
+    <a href="index.html#blog">Blog</a>
+    <a href="videos.html" class="active">Vídeos</a>
+  </div>
+</nav>
+
+<!-- MODAL LIGHTBOX -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-meta" id="modalMeta"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕ CERRAR</button>
+    </div>
+    <div class="modal-video">
+      <iframe id="modalFrame" allowfullscreen
+        allow="autoplay; encrypted-media; picture-in-picture">
+      </iframe>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-nav">
+        <button class="btn-modal-nav" onclick="modalPrev()">◀ ANT</button>
+        <button class="btn-modal-nav" onclick="modalNext()">SIG ▶</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- CABECERA -->
+  <div class="page-header">
+    <div class="paper-top">
+      <div class="paper-top-left">La Voz Uncorrected · Archivo Audiovisual · David</div>
+      <div class="paper-top-right">Vídeos · Directos · Clips</div>
+    </div>
+    <div class="paper-divider">
+      <div class="pd-thick"></div>
+      <div class="pd-red"></div>
+      <div class="pd-thick"></div>
+    </div>
+    <div class="page-title-row">
+      <h1 class="page-title">ARCHIVO<br><span class="red">VISUAL</span></h1>
+      <div class="page-kicker">
+        directos · clips · sesiones<br>
+        sin cortes · sin filtros<br>
+        todo en pantalla
+      </div>
+    </div>
+    <hr class="section-rule">
+  </div>
+
+  <!-- FILTROS -->
+  <div class="filters-bar">
+    <span class="filter-label">// filtrar por</span>
+    <button class="filter-btn active" data-filter="todo" onclick="filterVideos('todo', this)">Todo</button>
+    <button class="filter-btn" data-filter="directo" onclick="filterVideos('directo', this)">Directos</button>
+    <button class="filter-btn" data-filter="estudio" onclick="filterVideos('estudio', this)">Estudio</button>
+    <button class="filter-btn" data-filter="acustico" onclick="filterVideos('acustico', this)">Acústico</button>
+    <button class="filter-btn" data-filter="clip" onclick="filterVideos('clip', this)">Clips</button>
+    <span class="video-count" id="videoCount"></span>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid-section">
+    <div class="video-grid" id="videoGrid"></div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">UNCORRECTED</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="disco.html">Disco</a>
+      <a href="videos.html">Vídeos</a>
+      <a href="index.html#sobre-mi">Sobre mí</a>
+      <a href="index.html#blog">Blog</a>
+    </div>
+  </div>
+  <div class="footer-copy">© 2025 UNCORRECTED · david · sin reglas · sin filtros · sin correcciones</div>
+</footer>
+
+<script>
+/*  =====================================================
+    PARA AÑADIR VÍDEOS edita el archivo:  datos/videos.json
+    Estructura de cada entrada:
+    {
+      "id":       "XXXXXXXX",    ← ID de YouTube (después del ?v=)
+      "titulo":   "Nombre",
+      "desc":     "Descripción corta",
+      "cat":      "directo" | "estudio" | "acustico" | "clip",
+      "fecha":    "2025",
+      "dur":      "3:45",
+      "featured": false          ← true solo en el primero
+    }
+    ===================================================== */
+
+let videos = [];
+
+const catLabel = {
+  directo:  { texto: "Directo",  clase: "cat-directo" },
+  estudio:  { texto: "Estudio",  clase: "cat-estudio" },
+  acustico: { texto: "Acústico", clase: "cat-acustico" },
+  clip:     { texto: "Clip",     clase: "cat-clip" }
+};
+
+let currentFilter = "todo";
+let modalIdx = null;
+let filteredList = [];
+
+/* ---- Render grid ---- */
+function render(filter) {
+  currentFilter = filter;
+  filteredList = filter === "todo" ? videos : videos.filter(v => v.cat === filter);
+  const grid = document.getElementById('videoGrid');
+  grid.innerHTML = "";
+
+  document.getElementById('videoCount').textContent =
+    "// " + filteredList.length + " vídeo" + (filteredList.length !== 1 ? "s" : "");
+
+  if (filteredList.length === 0) {
+    grid.innerHTML = '<div class="no-results"><p>SIN RESULTADOS</p></div>';
+    return;
+  }
+
+  filteredList.forEach((v, i) => {
+    const thumb = "https://img.youtube.com/vi/" + v.id + "/mqdefault.jpg";
+    const cat   = catLabel[v.cat] || { texto: v.cat, clase: "cat-clip" };
+    const card  = document.createElement('div');
+    card.className = "video-card" + (v.featured && filter === "todo" ? " featured" : "");
+    card.innerHTML =
+      '<div class="card-thumb">' +
+        '<img src="' + thumb + '" alt="' + v.titulo + '" loading="lazy">' +
+        '<div class="thumb-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>' +
+        '<div class="thumb-tag">' + cat.texto + '</div>' +
+        (v.dur !== "—" ? '<div class="thumb-duration">' + v.dur + '</div>' : '') +
+      '</div>' +
+      '<div class="card-body">' +
+        '<div class="card-num">// VID ' + String(i+1).padStart(2,"0") + '</div>' +
+        '<div class="card-title">' + v.titulo + '</div>' +
+        '<div class="card-desc">' + v.desc + '</div>' +
+        '<div class="card-footer">' +
+          '<span class="card-date">' + v.fecha + '</span>' +
+          '<span class="card-cat ' + cat.clase + '">' + cat.texto + '</span>' +
+        '</div>' +
+      '</div>';
+    card.onclick = function() { openModal(i); };
+    grid.appendChild(card);
+  });
+}
+
+/* ---- Filter ---- */
+function filterVideos(filter, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.remove('active', 'rojo');
+  });
+  btn.classList.add('active');
+  if (filter !== 'todo') btn.classList.add('rojo');
+  render(filter);
+}
+
+/* ---- Modal ---- */
+function openModal(idx) {
+  modalIdx = idx;
+  const v = filteredList[idx];
+  document.getElementById('modalTitle').textContent = v.titulo;
+  document.getElementById('modalMeta').textContent  = v.fecha + "  ·  " + (catLabel[v.cat]?.texto || v.cat) + (v.dur !== "—" ? "  ·  " + v.dur : "");
+  document.getElementById('modalDesc').textContent  = v.desc;
+  document.getElementById('modalFrame').src =
+    "https://www.youtube.com/embed/" + v.id + "?autoplay=1&rel=0";
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.getElementById('modalFrame').src = "";
+  document.body.style.overflow = '';
+  modalIdx = null;
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
+
+function modalPrev() {
+  if (modalIdx === null) return;
+  openModal((modalIdx - 1 + filteredList.length) % filteredList.length);
+}
+function modalNext() {
+  if (modalIdx === null) return;
+  openModal((modalIdx + 1) % filteredList.length);
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowLeft')  modalPrev();
+  if (e.key === 'ArrowRight') modalNext();
+});
+
+/* ---- Burger ---- */
+document.getElementById('burger').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+/* ---- Init ---- */
+fetch('datos/videos.json')
+  .then(function(r) {
+    if (!r.ok) throw new Error('No se pudo cargar datos/videos.json');
+    return r.json();
+  })
+  .then(function(data) {
+    videos = data;
+    render("todo");
+  })
+  .catch(function(err) {
+    console.error(err);
+    document.getElementById('videoGrid').innerHTML =
+      '<div class="no-results"><p>ERROR AL CARGAR VÍDEOS</p>' +
+      '<p style="font-size:0.7rem;margin-top:0.5rem;color:rgba(26,18,9,0.3);font-family:monospace">' +
+      err.message + '</p></div>';
+    document.getElementById('videoCount').textContent = "// 0 vídeos";
+  });
+</script>
+</body>
+</html>
